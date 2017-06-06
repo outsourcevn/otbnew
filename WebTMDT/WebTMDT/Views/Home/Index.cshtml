@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Ship Hàng Nhanh";
+    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+}
+
+<div class="content-heading text-center">
+    <!-- Input Your Home Content Here -->
+    <div class="row text-center">
+        <!-- contact form outer row with centered text-->
+        <h2>Ship Hàng Nhanh - OtoBay.Vn</h2>
+        <div class="col-md-10 col-md-offset-1">
+            <!-- col 10 with offset 1 to centered -->
+            @Html.Partial("_SearchPartial")
+        </div><!-- end col 10 with offset 1 to centered -->
+    </div> <!-- end contact form outer row with centered text-->
+</div><!-- End Input Your Home Content Here -->
+
+@{Html.RenderAction("_DanhMucSanPhamPartial");}

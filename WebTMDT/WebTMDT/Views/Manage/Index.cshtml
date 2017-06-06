@@ -1,0 +1,71 @@
+﻿@model WebTMDT.Models.IndexViewModel
+@{
+    ViewBag.Title = "Quản lý thông tin tài khoản";
+    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+}
+
+
+
+<div class="row profile-user">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h3>@ViewBag.Title.</h3>
+            <h4>Thay đổi thông tin cài đặt</h4>
+        </div>
+        <p class="text-success">@ViewBag.StatusMessage</p>
+    </div>
+</div>
+
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Mật khẩu:</label>
+            <div class="col-md-8">
+                <div class="checkbox">
+                    @if (Model.HasPassword)
+                    {
+                        @Html.ActionLink("Thay đổi mật khẩu", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Tạo mật khẩu", "SetPassword")
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @if (User.IsInRole("Administrator"))
+            {
+                <label class="col-md-4 control-label">
+                    Quản trị sản phẩm:
+                </label>
+                <div class="col-md-8">
+                    <div class="checkbox">
+                        <a href="/admin">Trang quản trị</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <label class="col-md-4 control-label">
+                    Quản trị sản phẩm:
+                </label>
+                <div class="col-md-8">
+                    <div class="checkbox">
+                        <a href="/user/product/List">Quản trị sản phẩm</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">
+                Quản lý thông tin tài khoản
+            </label>
+            <div class="col-md-8">
+                <div class="checkbox">
+                    @Html.ActionLink("Quản lý thông tin cửa hàng", "ManageUserInfo")
+                </div>
+            </div>
+        </div>
+    </div>
