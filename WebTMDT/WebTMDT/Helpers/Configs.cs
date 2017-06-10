@@ -228,25 +228,46 @@ namespace WebTMDT.Helpers
         public static IEnumerable<ProductType> CreateListProductType()
         {
             List<ProductType> p = new List<ProductType>();
-            p.Add(new ProductType() {ProductTypeName = "Hàng chính hãng"});
-            p.Add(new ProductType() {ProductTypeName = "Hàng xách tay"});
-            p.Add(new ProductType() {ProductTypeName = "Hàng lỗi"});
-            p.Add(new ProductType() {ProductTypeName = "Hàng xuất khẩu"});
-            p.Add(new ProductType() {ProductTypeName = "Hàng khác"});
+            p.Add(new ProductType() {ProductTypeName = "Xe nhập khẩu chính hãng"});
+            p.Add(new ProductType() {ProductTypeName = "Xe lắp ráp trong nước"});
+            p.Add(new ProductType() {ProductTypeName = "Xe ngoại giao"});           
+            p.Add(new ProductType() {ProductTypeName = "khác"});
             return p;
         }
 
+        public static IEnumerable<ProductKg> CreateListProductKg()
+        {
+            List<ProductKg> p = new List<ProductKg>();
+            p.Add(new ProductKg() { ProductKgName = "1 tấn", ProductKgValue = 1 });
+            p.Add(new ProductKg() { ProductKgName = "3 tấn", ProductKgValue = 3 });
+            p.Add(new ProductKg() { ProductKgName = "5 tấn", ProductKgValue = 5 });
+            p.Add(new ProductKg() { ProductKgName = "10 tấn", ProductKgValue = 10 });
+            p.Add(new ProductKg() { ProductKgName = "15 tấn", ProductKgValue = 15 });
+            p.Add(new ProductKg() { ProductKgName = "20 tấn", ProductKgValue = 20 });
+            p.Add(new ProductKg() { ProductKgName = "Trên 20 tấn", ProductKgValue = 25 });
+            return p;
+        }
+        public static IEnumerable<ProductHumanType> CreateListProductHumanType()
+        {
+            List<ProductHumanType> p = new List<ProductHumanType>();
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "xe tìm hàng"});
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "hàng tìm xe" });
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "xe tìm người" });
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "người tìm xe" });
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "đi chung xe" });
+            p.Add(new ProductHumanType() { ProductHumanTypeName = "hợp tác vận tải" });
+            return p;
+        }
         public static IEnumerable<ProductStatus> CreateListProductStatus()
         {
             List<ProductStatus> p = new List<ProductStatus>();
             p.Add(new ProductStatus() { ProductStatusName = "Mới 100%" });
             p.Add(new ProductStatus() { ProductStatusName = "Mới 90%" });
             p.Add(new ProductStatus() { ProductStatusName = "Mới 80%" });
-            p.Add(new ProductStatus() { ProductStatusName = "Hàng like new" });
-            p.Add(new ProductStatus() { ProductStatusName = "Hàng cũ" });
-            p.Add(new ProductStatus() { ProductStatusName = "Hàng thanh lý" });
-            p.Add(new ProductStatus() { ProductStatusName = "Hàng cho không" });
-            p.Add(new ProductStatus() { ProductStatusName = "Hàng khác" });
+            p.Add(new ProductStatus() { ProductStatusName = "Xe gara" });
+            p.Add(new ProductStatus() { ProductStatusName = "Xe cũ" });
+            p.Add(new ProductStatus() { ProductStatusName = "Xe thanh lý" });            
+            p.Add(new ProductStatus() { ProductStatusName = "Xe khác" });
             return p;
         }
 

@@ -41,6 +41,8 @@ namespace WebTMDT.Controllers
             ViewBag.LocalData = LocalData;
             ViewBag.ProductType = Configs.CreateListProductType();          
             ViewBag.ProductStatus = Configs.CreateListProductStatus();
+            ViewBag.ProductKg = Configs.CreateListProductKg();
+            ViewBag.ProductHumanType = Configs.CreateListProductHumanType();
             return View();
         }
 
@@ -77,6 +79,14 @@ namespace WebTMDT.Controllers
                 var _subcat = db.Categories.Where(x => x.F1 == model.SubCatId).FirstOrDefault();
                 _product.F17 = _subcat.Category2.F1;
                 _product.F18 = _subcat.Category2.Category2.F1;
+                _product.F19 = model.ProductFrom;
+                _product.lon1 = model.lon1;
+                _product.lat1 = model.lat1;
+                _product.F20 = model.ProductTo;
+                _product.lon2 = model.lon2;
+                _product.lat2 = model.lat2;
+                _product.F21 = model.ProductKg;
+                _product.F22 = model.ProductHumanType;
                 db.Products.Add(_product);
                 await db.SaveChangesAsync();
                 long _productId = _product.F1;
@@ -679,6 +689,8 @@ namespace WebTMDT.Controllers
                 SubCatId = product.F15,
                 ParentCatId = product.F18,
                 LocalId = product.F16,
+                ProductKg=product.F21,
+                ProductHumanType=product.F22,
                 ProductImages = product.ImageProducts.Select(x => new ProductImages() { ProductId = x.F1, UrlImage = x.F3 }).ToList()
             };
 
@@ -719,6 +731,14 @@ namespace WebTMDT.Controllers
                     _product.F17 = _subcat.Category2.F1;
                     _product.F18 = _subcat.Category2.Category2.F1;
                     _product.F16 = product.LocalId ?? null;
+                    _product.F19 = product.ProductFrom;
+                    _product.lon1 = product.lon1;
+                    _product.lat1 = product.lat1;
+                    _product.F20 = product.ProductTo;
+                    _product.lon2 = product.lon2;
+                    _product.lat2 = product.lat2;
+                    _product.F21 = product.ProductKg;
+                    _product.F22 = product.ProductHumanType;
                     db.Entry(_product).State = EntityState.Modified;
                     db.SaveChanges();
                     var _images = _product.ImageProducts;

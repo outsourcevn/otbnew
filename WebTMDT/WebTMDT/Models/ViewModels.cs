@@ -51,19 +51,19 @@ namespace WebTMDT.Models
 
     public class ProductViewModel
     {
-        [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm.")]
-        [Display(Name = "Tên và mô tả ngắn về sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập tên bài.")]
+        [Display(Name = "Tên và mô tả")]
         public string ProductName { get; set; }
         [Display(Name = "Giá bán")]
-        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Giá bán phải là số.")]
-        [Required(ErrorMessage = "Vui lòng nhập giá bán sản phẩm")]
+        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Giá phải là số.")]
+        [Required(ErrorMessage = "Vui lòng nhập giá")]
         public string ProductPrice { get; set; }
         [Display(Name = "VAT")]
         public bool ProductVAT { get; set; }
-        [Display(Name = "Tình trạng sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập tình trạng sản phẩm")]
+        [Display(Name = "Tình trạng xe")]
+        [Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
         public string ProductStatus { get; set; }
-        [Display(Name = "Thể loại sản phẩm")]
+        [Display(Name = "Thể loại xe")]
         [Required(ErrorMessage = "Vui lòng nhập thể loại")]
         public string ProductType { get; set; }
         [Display(Name = "Cách thức giao hàng")]        
@@ -74,38 +74,50 @@ namespace WebTMDT.Models
         [Display(Name = "Khuyến mại")]
         //[Required(ErrorMessage = "Vui lòng nhập {0}")]
         public string ProductPromotion { get; set; }        
-        [Display(Name = "Ảnh đại diện sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng chọn ảnh đại diện sản phẩm")]
+        [Display(Name = "Ảnh đại diện xe")]
+        [Required(ErrorMessage = "Vui lòng chọn ảnh đại diện xe")]
         public string ProductAvatar { get; set; }
         public string ProductDescription { get; set; }
         public string ProductMore { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn danh mục sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng chọn danh mục xe")]
         [Range(1, int.MaxValue, ErrorMessage = "Giá trị {0} phải là số")]
         public Nullable<int> SubCatId { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn địa chỉ")]
+        //[Required(ErrorMessage = "Vui lòng chọn địa chỉ")]
         public Nullable<int> LocalId { get; set; }
         public ICollection<ProductImages> ProductImages { get; set; }
         public Nullable<int> ParentCatId { get; set; }
         public Nullable<int> CategoryId { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập điểm đi")]
+        public string ProductFrom { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập điểm đến")]
+        public string ProductTo { get; set; }
+        public double? lon1 { get; set; }
+        public double? lat1 { get; set; }
+        public double? lon2 { get; set; }
+        public double? lat2 { get; set; }
+        [Display(Name = "Trọng tải xe")]
+        public int? ProductKg { get; set; }
+        [Display(Name = "Kiểu bài")]
+        public string ProductHumanType { get; set; }
     }
 
     public class ProductEditViewModel
     {
         public long ProductId { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm.")]
-        [Display(Name = "Tên và mô tả ngắn về sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập tên bài.")]
+        [Display(Name = "Tên và mô tả ngắn")]
         public string ProductName { get; set; }
         [Display(Name = "Giá bán")]
-        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Giá bán phải là số.")]
-        [Required(ErrorMessage="Vui lòng nhập giá bán sản phẩm")]
+        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Giá phải là số.")]
+        [Required(ErrorMessage="Vui lòng nhập giá")]
         public string ProductPrice { get; set; }
         [Display(Name = "VAT")]
         public bool ProductVAT { get; set; }
         [Display(Name = "Tình trạng sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập tình trạng sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
         public string ProductStatus { get; set; }
         [Display(Name = "Thể loại sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập thể loại sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập thể loại xe")]
         public string ProductType { get; set; }
         [Display(Name = "Cách thức giao hàng")]        
         public string ProductMethod { get; set; }
@@ -120,19 +132,31 @@ namespace WebTMDT.Models
         //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         //public Nullable<System.DateTime> ProductDateCreate { get; set; }
         [Display(Name = "Ảnh đại diện sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng chọn ảnh đại diện sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng chọn ảnh đại diện xe")]
         public string ProductAvatar { get; set; }
         public string ProductDescription { get; set; }
         public string ProductMore { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn danh mục sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng chọn danh mục")]
         [Range(1, int.MaxValue, ErrorMessage = "Giá trị {0} phải là số")]
         public Nullable<int> SubCatId { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn địa chỉ")]
+        //[Required(ErrorMessage = "Vui lòng chọn địa chỉ")]
         [Range(1, int.MaxValue, ErrorMessage = "Giá trị {0} phải là số")]
         public Nullable<int> LocalId { get; set; }
         public ICollection<ProductImages> ProductImages { get; set; }
         public Nullable<int> ParentCatId { get; set; }
         public Nullable<int> CategoryId { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập điểm đi")]
+        public string ProductFrom { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập điểm đến")]
+        public string ProductTo { get; set; }
+        public double? lon1 { get; set; }
+        public double? lat1 { get; set; }
+        public double? lon2 { get; set; }
+        public double? lat2 { get; set; }
+        [Display(Name = "Trọng tải xe")]
+        public int? ProductKg { get; set; }
+        [Display(Name = "Kiểu bài")]
+        public string ProductHumanType { get; set; }
     }
 
     public class UserEditViewModel
@@ -167,6 +191,15 @@ namespace WebTMDT.Models
     public class ProductType
     {
         public string ProductTypeName { get; set; }
+    }
+    public class ProductKg
+    {
+        public string ProductKgName { get; set; }
+        public int? ProductKgValue { get; set; }
+    }
+    public class ProductHumanType
+    {
+        public string ProductHumanTypeName { get; set; }
     }
 
     public class UrlImages
