@@ -14,8 +14,8 @@
                             <p><b>@item.F2</b></p>
                             <p><b>Giá bán: </b> @String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", @item.F3)</p>
                         </a>
-                        <a href="@string.Format("/gianhang/{0}/{1}", @item.AspNetUser.UserName, Configs.unicodeToNoMark(@item.AspNetUser.UserName))">@item.AspNetUser.TenNguoiBan</a>
-                        <a href="tel:@item.AspNetUser.PhoneNumber">Số điện thoại liên hệ: @item.AspNetUser.PhoneNumber</a>
+                        <a href="@string.Format("/gianhang/{0}/{1}", @item.AspNetUser.UserName, Configs.unicodeToNoMark(@item.AspNetUser.UserName))">Người đăng: @item.AspNetUser.TenNguoiBan</a>
+                        @*<a href="tel:@item.AspNetUser.PhoneNumber">Số điện thoại liên hệ: @item.AspNetUser.PhoneNumber</a>*@
                     </div>
                 }
             }

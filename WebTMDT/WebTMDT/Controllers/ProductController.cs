@@ -77,8 +77,8 @@ namespace WebTMDT.Controllers
                 _product.F15 = model.SubCatId ?? null;
                 _product.F16 = model.LocalId ?? null;
                 var _subcat = db.Categories.Where(x => x.F1 == model.SubCatId).FirstOrDefault();
-                _product.F17 = _subcat.Category2.F1;
-                _product.F18 = _subcat.Category2.Category2.F1;
+                _product.F17 = _subcat.F1;// _subcat.Category2.F1;
+                _product.F18 = _subcat.F1;// _subcat.Category2.Category2.F1;
                 _product.F19 = model.ProductFrom;
                 _product.lon1 = model.lon1;
                 _product.lat1 = model.lat1;
@@ -108,8 +108,8 @@ namespace WebTMDT.Controllers
                 TempData["LocalId"] = model.LocalId;
                 
                 TempData["SubCatName"] = _subcat.F2;
-                TempData["CatName"] = _subcat.Category2.F2;
-                TempData["LocalName"] = db.Locals.Where(x => x.F1 == model.LocalId).FirstOrDefault().F2;
+                TempData["CatName"] = _subcat.F2;// _subcat.Category2.F2;
+                TempData["LocalName"] = "";// db.Locals.Where(x => x.F1 == model.LocalId).FirstOrDefault().F2;
                 TempData["Message"] = "Đăng sản phẩm thành công.";
             }
 

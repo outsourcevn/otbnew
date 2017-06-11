@@ -18,7 +18,7 @@
 {
     @if (Model != null)
     {
-        <meta name="description" content="@Html.Raw(Model.Category.Category2.F2) @Html.Raw(Model.Category.F2) @Html.Raw(Model.F2)">
+        <meta name="description" content="@Html.Raw(Model.F2)">
         <meta name="keywords" content="@Html.Raw(Model.F2), @Configs.splitString(Model.F2)">
         <meta name="author" content="test.langson.net">
         <meta name="robots" content="index,follow,noodp">
@@ -26,7 +26,7 @@
         <meta property="og:type" content="Product">
         <meta property="og:url" content="@Request.Url.Host@Request.RawUrl.ToString()">
         <meta property="og:title" content="@Html.Raw(Model.F2) - lạng sơn">
-        <meta property="og:description" content="@Html.Raw(Model.Category.Category2.F2) @Html.Raw(Model.Category.F2) @Html.Raw(Model.F2)">
+        <meta property="og:description" content="@Html.Raw(Model.F2)">
         <meta property="og:image" itemprop="thumbnailUrl" content="@Request.Url.Host@Html.DisplayFor(m => m.F11)">
     }   
 

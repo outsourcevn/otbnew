@@ -32,13 +32,13 @@
                                 {
                                     <li class="dropdown-submenu">
                                         <a tabindex="-1" href="#" data-id="@item.F1">@item.F2</a>
-                                        <ul class="dropdown-menu">
+                                        @*<ul class="dropdown-menu">
                                             @foreach (var item1 in menu1)
                                             {
                                                 <li><a href="#" data-id="@item1.CatId">@item1.CatName</a></li>
                                             }
                                             <li></li>
-                                        </ul>
+                                        </ul>*@
                                     </li>
                                 }
 
@@ -67,7 +67,7 @@
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                         <li><a href="#">--Chọn danh mục lớn--</a></li>
                     </ul>*@
-                    <input type="text" class="form-control" name="F19" id="F19" placeholder="Điểm đi">
+                    <input type="text" class="form-control" name="ProductFrom" id="ProductFrom" placeholder="Điểm đi">
                     <input type="hidden" name="lat1" id="lat1" />
                     <input type="hidden" name="lon1" id="lon1" />
 
@@ -118,7 +118,7 @@
                             }
                         </div>
                     </div>*@
-                    <input type="text" class="form-control" name="F20" id="F20" placeholder="Điểm đến">
+                    <input type="text" class="form-control" name="ProductTo" id="ProductTo" placeholder="Điểm đến">
                     <input type="hidden" name="lat2" id="lat2" />
                     <input type="hidden" name="lon2" id="lon2" />
                 </div>
@@ -131,7 +131,15 @@
     $(document).ready(function () {
 
         $('#selectDM1 > ul > li.dropdown-submenu > a').on('click', function (e) {
-            //e.preventDefault();            
+            //e.preventDefault();   
+            var _id = $(this).data('id');
+            var _text = $(this).html();
+            var selText = $(this).html() + '<span class="caret pull-right"></span>';
+            $(this).parent('li').siblings().removeClass('active');
+            $(this).parent('li').addClass('active');
+            $('#selectDM1').children('a').html(selText);
+            //elt.tagsinput('add', { "id": _id, "text": _text });
+            $('#ProductCategoryId').val(_id);
         })
 
         $('#selectDM2').on('click', 'ul.dropdown-menu > li > a', function (e) {
@@ -203,7 +211,7 @@
     var options = {
         map: "#map-canvas"
     };
-    $("#F19").geocomplete(options)
+    $("#ProductFrom").geocomplete(options)
       .bind("geocode:result", function (event, result) {
           $("#lat1").val(result.geometry.location.lat());
           $("#lon1").val(result.geometry.location.lng());
@@ -215,7 +223,7 @@
       .bind("geocode:multiple", function (event, results) {
           $.log("Multiple: " + results.length + " results found");
       });
-    $("#F20").geocomplete(options)
+    $("#ProductTo").geocomplete(options)
       .bind("geocode:result", function (event, result) {
           $("#lat2").val(result.geometry.location.lat());
           $("#lon2").val(result.geometry.location.lng());

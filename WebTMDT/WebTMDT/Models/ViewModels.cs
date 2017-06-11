@@ -61,10 +61,10 @@ namespace WebTMDT.Models
         [Display(Name = "VAT")]
         public bool ProductVAT { get; set; }
         [Display(Name = "Tình trạng xe")]
-        [Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
+        //[Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
         public string ProductStatus { get; set; }
         [Display(Name = "Thể loại xe")]
-        [Required(ErrorMessage = "Vui lòng nhập thể loại")]
+        //[Required(ErrorMessage = "Vui lòng nhập thể loại")]
         public string ProductType { get; set; }
         [Display(Name = "Cách thức giao hàng")]        
         public string ProductMethod { get; set; }
@@ -114,10 +114,10 @@ namespace WebTMDT.Models
         [Display(Name = "VAT")]
         public bool ProductVAT { get; set; }
         [Display(Name = "Tình trạng sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
+        //[Required(ErrorMessage = "Vui lòng nhập tình trạng xe")]
         public string ProductStatus { get; set; }
         [Display(Name = "Thể loại sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập thể loại xe")]
+        //[Required(ErrorMessage = "Vui lòng nhập thể loại xe")]
         public string ProductType { get; set; }
         [Display(Name = "Cách thức giao hàng")]        
         public string ProductMethod { get; set; }
