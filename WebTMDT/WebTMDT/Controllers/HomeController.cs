@@ -110,7 +110,13 @@ namespace WebTMDT.Controllers
             
             return PartialView("_DanhMucSanPhamPartial", data);
         }
+        //[ChildActionOnly]
+        public ActionResult _DanhMucSanPhamPartial2()
+        {
+            var data = Configs.CreateListProductHumanType();
 
+            return PartialView("_DanhMucSanPhamPartial2", data);
+        }
         //_ProductWithCatelog
         [ChildActionOnly]
         public ActionResult _ProductWithCatelog(int? id)
@@ -153,7 +159,28 @@ namespace WebTMDT.Controllers
             }
             return PartialView("_ProductWithCatelog", _products.OrderByDescending(x=>x.F10).Take(4).ToList());
         }
+        [ChildActionOnly]
+        public ActionResult _ProductWithCatelog2(string cat)
+        {
 
+            //var products = GetProductOfCat(id).OrderByDescending(x => x.F10).Take(5).ToList();
+            var _products = db.Products.Where(o => o.F22.Contains(cat)).OrderByDescending(o => o.F1).Take(5).ToList();
+            return PartialView("_ProductWithCatelog2", _products);
+        }
+        //public void SetProducts2(ICollection<Category> ic, List<Product> _products)
+        //{
+        //    foreach (var c1 in ic)
+        //    {
+        //        if (c1.Products.Count > 0)
+        //        {
+        //            _products.AddRange(c1.Products);
+        //        }
+        //        if (c1.Category1.Count > 0)
+        //        {
+        //            SetProducts(c1.Category1, _products);
+        //        }
+        //    }
+        //}
         public void SetProducts(ICollection<Category> ic, List<Product> _products)
         {
             foreach (var c1 in ic)
@@ -191,7 +218,35 @@ namespace WebTMDT.Controllers
             }
             return _products;
         }
-
+        public bool GetProductOfCat2(string F22)
+        {
+            try
+            {
+                return db.Products.Any(o => o.F22.Contains(F22));
+            }
+            catch
+            {
+                return false;
+            }
+            //var _cat = db.Categories.Where(x => x.F1 == id).FirstOrDefault();
+            //List<Product> _products = new List<Product>();
+            //if (_cat != null)
+            //{
+            //    if (_cat.Category1.Count > 0)
+            //    {
+            //        SetProducts(_cat.Category1, _products);
+            //    }
+            //    else
+            //    {
+            //        _products.AddRange(_cat.Products);
+            //    }
+            //}
+            //else
+            //{
+            //    _products = null;
+            //}
+            //return _products;
+        }
         public string generateSiteMap()
         {
 

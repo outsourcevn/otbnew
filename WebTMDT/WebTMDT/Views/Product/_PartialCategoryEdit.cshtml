@@ -28,13 +28,13 @@
                                 {
                                     <li class="dropdown-submenu">
                                         <a tabindex="-1" href="#" data-id="@item.F1">@item.F2</a>
-                                        <ul class="dropdown-menu">
+                                        @*<ul class="dropdown-menu">
                                             @foreach (var item1 in menu1)
                                             {
                                                 <li><a href="#" data-id="@item1.CatId">@item1.CatName</a></li>
                                             }
                                             <li></li>
-                                        </ul>
+                                        </ul>*@
                                     </li>
                                 }
 
@@ -49,7 +49,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <div class="dropdown" id="selectDM2">
-                    <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
+                    @*<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
                         @if (ViewBag.SubCatName != null)
                         {
                             @ViewBag.SubCatName
@@ -62,7 +62,10 @@
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                         <li><a href="#">--Chọn danh mục lớn--</a></li>
-                    </ul>
+                    </ul>*@
+                    <input type="text" class="form-control" name="ProductFrom" id="ProductFrom" placeholder="Điểm đi" value="@ViewBag.ProductFrom">
+                    <input type="hidden" name="lat1" id="lat1" value="@ViewBag.lat1" />
+                    <input type="hidden" name="lon1" id="lon1" value="@ViewBag.lon1" />
                 </div>
             </div>
         </div>
@@ -71,7 +74,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <div class="dropdown" id="selectDiadiem">
-                    <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
+                    @*<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
 
                         @if (ViewBag.LocalName != null)
                         {
@@ -108,8 +111,11 @@
 
                                 }
                             }
-                        </div>
-                    </div>
+                        </div>                        
+                    </div>*@
+                    <input type="text" class="form-control" name="ProductTo" id="ProductTo" placeholder="Điểm đến" value="@ViewBag.ProductTo">
+                    <input type="hidden" name="lat2" id="lat2" value="@ViewBag.lat2" />
+                    <input type="hidden" name="lon2" id="lon2" value="@ViewBag.lon2" />
                 </div>
             </div>
         </div>
@@ -120,7 +126,15 @@
     $(document).ready(function () {
 
         $('#selectDM1 > ul > li.dropdown-submenu > a').on('click', function (e) {
-            e.preventDefault();
+            //e.preventDefault();
+            var _id = $(this).data('id');
+            var _text = $(this).html();
+            var selText = $(this).html() + '<span class="caret pull-right"></span>';
+            $(this).parent('li').siblings().removeClass('active');
+            $(this).parent('li').addClass('active');
+            $('#selectDM1').children('a').html(selText);
+            //elt.tagsinput('add', { "id": _id, "text": _text });
+            $('#ProductCategoryId').val(_id);
         })
 
         $('#selectDM2').on('click', 'ul.dropdown-menu > li > a', function (e) {

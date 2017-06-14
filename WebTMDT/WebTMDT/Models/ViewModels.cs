@@ -98,6 +98,7 @@ namespace WebTMDT.Models
         [Display(Name = "Trọng tải xe")]
         public int? ProductKg { get; set; }
         [Display(Name = "Kiểu bài")]
+        [Required(ErrorMessage = "Vui lòng nhập kiểu bài: xe tìm hàng? hàng tìm xe?...")]
         public string ProductHumanType { get; set; }
     }
 
@@ -156,6 +157,7 @@ namespace WebTMDT.Models
         [Display(Name = "Trọng tải xe")]
         public int? ProductKg { get; set; }
         [Display(Name = "Kiểu bài")]
+        [Required(ErrorMessage = "Vui lòng nhập kiểu bài: xe tìm hàng? hàng tìm xe?...")]
         public string ProductHumanType { get; set; }
     }
 

@@ -658,7 +658,9 @@ namespace WebTMDT.Controllers
             var LocalData = db.Locals.ToList();
             ViewBag.LocalData = LocalData;
             ViewBag.ProductType = Configs.CreateListProductType(); 
-            ViewBag.ProductStatus = Configs.CreateListProductStatus();
+            ViewBag.ProductStatus = Configs.CreateListProductStatus();            
+            ViewBag.ProductKg = Configs.CreateListProductKg();
+            ViewBag.ProductHumanType = Configs.CreateListProductHumanType();
             string userId = User.Identity.GetUserId();
             Product product = await db.Products.FindAsync(id);
             if (product == null)
@@ -696,7 +698,13 @@ namespace WebTMDT.Controllers
 
             ViewBag.CatName = db.Categories.Where(x => x.F1 == _products.CategoryId).FirstOrDefault().F2;
             ViewBag.SubCatName = db.Categories.Where(x => x.F1 == _products.SubCatId).FirstOrDefault().F2;
-            ViewBag.LocalName = db.Locals.Where(x => x.F1 == _products.LocalId).FirstOrDefault().F2;
+            ViewBag.ProductFrom = product.F19;
+            ViewBag.lon1 = product.lon1;
+            ViewBag.lat1 = product.lat1;
+            ViewBag.ProductTo = product.F20;
+            ViewBag.lon2 = product.lon2;
+            ViewBag.lat2 = product.lat2;
+            ViewBag.LocalName = "";// db.Locals.Where(x => x.F1 == _products.LocalId).FirstOrDefault().F2;
             return View(_products);
         }
 
@@ -728,8 +736,8 @@ namespace WebTMDT.Controllers
                     //_product.F18 = product.ParentCatId ?? null;
                     _product.F15 = product.SubCatId ?? null;
                     var _subcat = db.Categories.Where(x => x.F1 == product.SubCatId).FirstOrDefault();
-                    _product.F17 = _subcat.Category2.F1;
-                    _product.F18 = _subcat.Category2.Category2.F1;
+                    _product.F17 = _subcat.F1;
+                    _product.F18 = _subcat.F1;
                     _product.F16 = product.LocalId ?? null;
                     _product.F19 = product.ProductFrom;
                     _product.lon1 = product.lon1;
