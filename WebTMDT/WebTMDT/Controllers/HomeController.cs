@@ -21,6 +21,7 @@ namespace WebTMDT.Controllers
             ViewBag.Category = Cat;
             var LocalData = db.Locals.ToList();
             ViewBag.LocalData = LocalData;
+            ViewBag.ProductHumanType = Configs.CreateListProductHumanType();
             return View();
         }
 

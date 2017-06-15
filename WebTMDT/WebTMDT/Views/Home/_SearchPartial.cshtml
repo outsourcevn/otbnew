@@ -73,10 +73,10 @@
         @*@{Html.RenderAction("ShowCat1", "Home");}*@
         <div class="col-md-3">
             <div class="dropdown" id="selectDM1">
-                <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
-                    Chọn danh mục lớn <span class="caret pull-right"></span>
-                </a>
-                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                @*<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-default" data-target="#" style="width: 100%; text-align: left;">
+                    Kiểu bài <span class="caret pull-right"></span>
+                </a>*@
+                @*<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                     @{
                             var menusList = ViewBag.Category as IEnumerable<Category>;
                             foreach (var item in menusList.Where(x => x.F3 == null))
@@ -100,7 +100,27 @@
                             }
                     }
                    
-                </ul>
+                </ul>*@
+                <select id="F22" class="form-control"></select>
+                <script>
+                    $.ajax({
+                        url: "/Product/getF22",
+                        cache: false
+                    }).done(function (html) {
+                        //alert(html);
+                        var news = '{"news":' + html + '}';
+                        var json_parsed = $.parseJSON(news);
+                        $("#F22").html("<option value=''>Kiểu Bài</option>");
+                        for (var i = 0; i < json_parsed.news.length; i++) {
+                            if (json_parsed.news[i]) {
+                                var name = json_parsed.news[i];
+                                $("#F22").append("<option value='" + json_parsed.news[i].ProductHumanTypeName + "'>" + json_parsed.news[i].ProductHumanTypeName + "</option>");
+                            }
+                        }
+
+                    });
+                </script>
+                
             </div>
         </div>
 

@@ -14,7 +14,7 @@ using System.Net;
 using System.Data.Entity;
 using System.Globalization;
 using System.ComponentModel;
-
+using Newtonsoft.Json;
 namespace WebTMDT.Controllers
 {
     [Authorize]
@@ -852,7 +852,10 @@ namespace WebTMDT.Controllers
             
             return View(product);
         }
-
+        public string getF22()
+        {
+            return JsonConvert.SerializeObject(Configs.CreateListProductHumanType());
+        }
         [AllowAnonymous]
         public async Task<ActionResult> GianHang(int? page, string username)
         {            
