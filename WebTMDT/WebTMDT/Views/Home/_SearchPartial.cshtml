@@ -102,24 +102,7 @@
                    
                 </ul>*@
                 <select id="F22" class="form-control"></select>
-                <script>
-                    $.ajax({
-                        url: "/Product/getF22",
-                        cache: false
-                    }).done(function (html) {
-                        //alert(html);
-                        var news = '{"news":' + html + '}';
-                        var json_parsed = $.parseJSON(news);
-                        $("#F22").html("<option value=''>Kiểu Bài</option>");
-                        for (var i = 0; i < json_parsed.news.length; i++) {
-                            if (json_parsed.news[i]) {
-                                var name = json_parsed.news[i];
-                                $("#F22").append("<option value='" + json_parsed.news[i].ProductHumanTypeName + "'>" + json_parsed.news[i].ProductHumanTypeName + "</option>");
-                            }
-                        }
-
-                    });
-                </script>
+                
                 
             </div>
         </div>
@@ -127,7 +110,7 @@
         <div class="col-md-3">
 
             <div class="dropdown" id="selectDM2">
-                @Html.TextBox("from", "", new { @class = "form-control", type = "search", placeholder = "Điểm đi", @id = "from" })
+                @Html.TextBox("from", "", new { @class = "form-control", type = "search", placeholder = "Điểm đi", @id = "F19" })
             </div>
 
         </div>
@@ -136,7 +119,7 @@
         <div class="col-md-3">
 
             <div class="dropdown" id="selectDiadiem">
-                @Html.TextBox("from", "", new { @class = "form-control", type = "search", placeholder = "Điểm đến", @id = "from" })
+                @Html.TextBox("to", "", new { @class = "form-control", type = "search", placeholder = "Điểm đến", @id = "F20" })
             </div>
 
         </div>
@@ -160,10 +143,10 @@
     //        return false;
     //    };
     //}
-
+    
     function validate() {
-        if (document.getElementById("f18").value === "" && document.getElementById("f17").value === "" && document.getElementById("f15").value === "" && document.getElementById("inputsearch").value === "" && document.getElementById("f16").value === "") {
-            alert("Vui lòng nhập từ khóa hoặc chọn một danh mục để tìm kiếm");
+        if (document.getElementById("f19").value === "" && document.getElementById("f20").value === "" && document.getElementById("f22").value === "" && document.getElementById("inputsearch").value === "") {
+            alert("Vui lòng nhập từ khóa hoặc chọn một danh mục, điểm đi, điểm đến để tìm kiếm");
             return false;
         } else {
             return true;
@@ -269,6 +252,23 @@
 
 
     })
+    $.ajax({
+        url: "/Home/getF22",
+        cache: false
+    }).done(function (html) {
+        //alert(html);
+        var news = '{"news":' + html + '}';
+        var json_parsed = $.parseJSON(news);
+        $("#F22").html("<option value=''>Kiểu Bài</option>");
+        for (var i = 0; i < json_parsed.news.length; i++) {
+            if (json_parsed.news[i]) {
+                var name = json_parsed.news[i];
+                $("#F22").append("<option value='" + json_parsed.news[i].ProductHumanTypeName + "'>" + json_parsed.news[i].ProductHumanTypeName + "</option>");
+            }
+        }
+
+    });
+    
 </script>
 
 @if (ViewBag.f18 != null && ViewBag.f18n != null)

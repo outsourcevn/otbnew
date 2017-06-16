@@ -79,7 +79,7 @@ namespace WebTMDT.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập {0}.")]
-        [Display(Name="Tên người bán/cửa hàng")]
+        [Display(Name="Tên tài xế/ hãng xe")]
         public string TenNguoiBan { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập {0}.")]

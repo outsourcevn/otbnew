@@ -415,7 +415,7 @@ namespace WebTMDT.Controllers
 
         // GET: /Product/search
         [AllowAnonymous]
-        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, int? pg)
+        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, double? lon1, double? lat1, double? lon2, double? lat2, int? pg)
         {         
             var _p = db.Products.Select(p=>p);           
 
@@ -563,7 +563,10 @@ namespace WebTMDT.Controllers
                     SubCatId = p.F15,
                     CatId = p.F17,
                     ParentId = p.F18,
-                    DiaDiem = p.Local.F2
+                    DiaDiem = p.Local.F2,
+                    DiemDi=p.F19,
+                    DiemDen=p.F20
+
                 };
                 _lstProducts.Add(item);
             }
@@ -852,10 +855,7 @@ namespace WebTMDT.Controllers
             
             return View(product);
         }
-        public string getF22()
-        {
-            return JsonConvert.SerializeObject(Configs.CreateListProductHumanType());
-        }
+        
         [AllowAnonymous]
         public async Task<ActionResult> GianHang(int? page, string username)
         {            

@@ -244,6 +244,8 @@ namespace WebTMDT.Models
         public int? CatId { get; set; }
         public int? ParentId { get; set; }
         public string DiaDiem { get; set; }
+        public string DiemDi { get; set; }
+        public string DiemDen { get; set; }
     }
 
     public class EntityProduct

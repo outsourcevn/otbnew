@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Xml;
 using WebTMDT.Helpers;
 using WebTMDT.Models;
-
+using Newtonsoft.Json;
 namespace WebTMDT.Controllers
 {
     public class HomeController : Controller
@@ -24,7 +24,11 @@ namespace WebTMDT.Controllers
             ViewBag.ProductHumanType = Configs.CreateListProductHumanType();
             return View();
         }
-
+        [HttpGet]
+        public string getF22()
+        {
+            return JsonConvert.SerializeObject(Configs.CreateListProductHumanType());
+        }
         #region LoadDanhMuc
         [ChildActionOnly]
         public IEnumerable<CatViewModel> CreateVM(int parentid, IEnumerable<Category> source)

@@ -96,8 +96,9 @@
                                 <p><b>Tình trạng: </b> @item.TinhTrangSp</p>
                                 <p><b>Ngày đăng: </b>@String.Format("{0:dd/MM/yyyy HH:mm:ss tt}", item.NgayDang)</p>
                                 <p><b>Thể loại: </b> @item.TheLoai</p>
-                                <p><b>Tên cửa hàng: </b><a href="@string.Format("/gianhang/{0}/{1}", @item.GianHang, @item.SlugGianHang)">@item.TenNguoiBan</a></p>
-                                <p><b>Địa điểm: </b>@item.DiaDiem</p>
+                                <p><b>Tên tài xế: </b><a href="@string.Format("/gianhang/{0}/{1}", @item.GianHang, @item.SlugGianHang)">@item.TenNguoiBan</a></p>
+                                <p><b>Địa đi: </b>@item.DiemDi</p>
+                                <p><b>Địa đến: </b>@item.DiemDen</p>
                                 <p class="giaban">@item.GiaBan</p>
                                 <p class="sodienthoai"><a href="tel:@item.SDTNguoiBan">@item.SDTNguoiBan</a></p>
                             </div>
