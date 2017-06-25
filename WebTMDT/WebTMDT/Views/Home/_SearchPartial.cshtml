@@ -1,6 +1,10 @@
 ﻿@using WebTMDT.Models;
 @using WebTMDT.Controllers;
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places&region=vn&language=vi" type="text/javascript"></script>
+<script src="/Scripts/jquery.geocomplete.min.js"></script>
+<div id="map-canvas" style="display: none;">
+    Bản đồ
+</div>
 <form id="form-search" class="form-horizontal" name="sentMessage" method="get" action="/product/search" onsubmit="return validate()">
     <!-- form wrapper -->
     <div class="form-group query_search">
@@ -120,6 +124,10 @@
 
             <div class="dropdown" id="selectDiadiem">
                 @Html.TextBox("to", "", new { @class = "form-control", type = "search", placeholder = "Điểm đến", @id = "F20" })
+                <input type="hidden" name="lat1" id="lat1" />
+                <input type="hidden" name="lon1" id="lon1" />
+                <input type="hidden" name="lat2" id="lat2" />
+                <input type="hidden" name="lon2" id="lon2" />
             </div>
 
         </div>
@@ -145,8 +153,8 @@
     //}
     
     function validate() {
-        if (document.getElementById("f19").value === "" && document.getElementById("f20").value === "" && document.getElementById("f22").value === "" && document.getElementById("inputsearch").value === "") {
-            alert("Vui lòng nhập từ khóa hoặc chọn một danh mục, điểm đi, điểm đến để tìm kiếm");
+        if (document.getElementById("f19").value == "" || document.getElementById("f20").value == "" || document.getElementById("lon1").value == "" || document.getElementById("lon2").value == "") {
+            alert("Vui lòng chọn điểm đi, điểm đến để tìm kiếm");
             return false;
         } else {
             return true;
@@ -259,7 +267,7 @@
         //alert(html);
         var news = '{"news":' + html + '}';
         var json_parsed = $.parseJSON(news);
-        $("#F22").html("<option value=''>Kiểu Bài</option>");
+        $("#F22").html("<option value=''>Kiểu Xe</option>");
         for (var i = 0; i < json_parsed.news.length; i++) {
             if (json_parsed.news[i]) {
                 var name = json_parsed.news[i];
@@ -392,3 +400,33 @@ else
         })
     </script>
 }
+
+<script>
+    var options = {
+        map: "#map-canvas"
+    };
+    $("#F19").geocomplete(options)
+      .bind("geocode:result", function (event, result) {
+          $("#lat1").val(result.geometry.location.lat());
+          $("#lon1").val(result.geometry.location.lng());
+          //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+      })
+      .bind("geocode:error", function (event, status) {
+          $.log("ERROR: " + status);
+      })
+      .bind("geocode:multiple", function (event, results) {
+          $.log("Multiple: " + results.length + " results found");
+      });
+    $("#F20").geocomplete(options)
+      .bind("geocode:result", function (event, result) {
+          $("#lat2").val(result.geometry.location.lat());
+          $("#lon2").val(result.geometry.location.lng());
+          //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+      })
+      .bind("geocode:error", function (event, status) {
+          $.log("ERROR: " + status);
+      })
+      .bind("geocode:multiple", function (event, results) {
+          $.log("Multiple: " + results.length + " results found");
+      });
+</script>

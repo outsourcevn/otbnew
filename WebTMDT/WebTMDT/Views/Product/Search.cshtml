@@ -33,7 +33,7 @@
     <!-- Input Your Home Content Here -->
     <div class="row text-center">
         <!-- contact form outer row with centered text-->
-        <h2>Sử dụng bộ lọc bên dưới để tìm kiếm sản phẩm nhanh nhất</h2>
+        <h2>Sử dụng bộ lọc bên dưới để tìm kiếm xe nhanh nhất</h2>
         <div class="col-md-12">
             <!-- col 10 with offset 1 to centered -->
             @Html.Partial("~/Views/Home/_SearchPartial.cshtml")
@@ -48,13 +48,13 @@
         <div class="col-md-3">
             @if (ViewBag.ProductTheLoai != null)
             {
-                @Html.DropDownList("Selectf6", new SelectList(ViewBag.ProductTheLoai, "ProductTypeName", "ProductTypeName"), "Chọn thể loại sản phẩm", new { @class = "form-control" })
+                @Html.DropDownList("Selectf6", new SelectList(ViewBag.ProductTheLoai, "ProductTypeName", "ProductTypeName"), "Chọn thể loại xe", new { @class = "form-control" })
             }
         </div>
         <div class="col-md-3">
             @if (ViewBag.ProductTrangThai != null)
             {
-                @Html.DropDownList("Selectf5", new SelectList(ViewBag.ProductTrangThai, "ProductStatusName", "ProductStatusName"), "Chọn tình trạng sản phẩm", new { @class = "form-control" })
+                @Html.DropDownList("Selectf5", new SelectList(ViewBag.ProductTrangThai, "ProductStatusName", "ProductStatusName"), "Chọn tình trạng xe", new { @class = "form-control" })
             }
         </div>
         <div class="col-md-3">
@@ -66,7 +66,7 @@
         <div class="col-md-3">
             @if (ViewBag.ProductGiaBan != null)
             {
-                @Html.DropDownList("Selectf3", new SelectList(ViewBag.ProductGiaBan, "TypeSort", "NameSort"), "Giá bán", new { @class = "form-control" })
+                @Html.DropDownList("Selectf3", new SelectList(ViewBag.ProductGiaBan, "TypeSort", "NameSort"), "Giá", new { @class = "form-control" })
             }
         </div>
     </div>

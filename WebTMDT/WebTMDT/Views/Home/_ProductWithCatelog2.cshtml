@@ -30,7 +30,7 @@
                                         <p><b>Ngày đăng: </b>@item.F10</p>
                                         <p><b>Điểm đi: </b> @item.F19</p>
                                         <p><b>Điểm đến: </b> @item.F20</p>
-                                        <p class="giaban" style="top: 48%;">@item.F3</p>
+                                        <p class="giaban" style="top: 48%;">@String.Format("{0:n0}", @item.F3)</p>
                                         <p class="sodienthoai"><a href="tel:@item.AspNetUser.PhoneNumber">@item.AspNetUser.PhoneNumber</a></p>
                                         <p ><span style="background:#00ffff;">@Html.Raw(item.F12)</span></p>
                                     </div>

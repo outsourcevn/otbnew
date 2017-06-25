@@ -81,30 +81,55 @@
 
     <!-- Main Navigation
     ================================================== -->
-    <nav id="tf-menu" class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+    <nav id="tf-menu" class="navbar navbar-default navbar-fixed-top" style="background:#e8eaed;">
+        <div class="container" style="background:#e8eaed;">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/" style="font-size: 14px; margin-top: -4px;"><img style="display: inline; margin-right: 10px;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs">OTOBAY.VN</span></a>
-                @*<img src="~/Content/Images/logo-tmdt.png" style="float:left;width:20px;height:20px;">@Html.ActionLink("Thương mại Điện tử cho người Lạng Sơn", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-            </div>
+            @*<div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/" style="font-size: 14px; margin-top: -4px;"><img style="display: inline; margin-right: 10px;" src="~/Content/Images/logo-tmdt.png" /><span class="hidden-xs">OTOBAY.VN</span></a>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Trang chủ", "Index", "Home", new { area = "" }, new { @class = "scroll" })</li>
-                    <li>@Html.ActionLink("Giới thiệu", "About", "Home", new { area = "" }, new { @class = "scroll" })</li>
-                    <li>@Html.ActionLink("Liên hệ", "Contact", "Home", new { area = "" }, new { @class = "scroll" })</li>
-                    <li><a href="/product" class="scroll"><i class="fa fa-plus"></i> Đăng sản phẩm</a></li>
-                    @Html.Partial("_LoginPartial")
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Trang chủ", "Index", "Home", new { area = "" }, new { @class = "scroll" })</li>
+                        <li>@Html.ActionLink("Giới thiệu", "About", "Home", new { area = "" }, new { @class = "scroll" })</li>
+                        <li>@Html.ActionLink("Liên hệ", "Contact", "Home", new { area = "" }, new { @class = "scroll" })</li>
+                        <li><a href="/product" class="scroll"><i class="fa fa-plus"></i> Đăng Bài Viết</a></li>
+                        @Html.Partial("_LoginPartial")
+                    </ul>
+                </div><!-- /.navbar-collapse -->*@
+            <div class="col-md-12" style="background:#3b5996;">
+                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/hlx.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
+                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/otb.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
+                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/vg.png" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
+            </div>
+            <div class="col-md-12" style="background:#808080;">
+                <ul class="nav navbar-nav navbar-static-top">
+                    <li><a href="/Home/About" class="btn btn-primary btn-block" style="color:#ffffff;">Giới thiệu</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Thành Viên</a></li>
+                    <li><a href="/Account/Register" class="btn btn-primary btn-block" style="color:#ffffff;">Đăng Ký </a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Ô Tô Bay</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Ship Hàng Nhanh</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Vay Gấp</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Salon Ô Tô</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Quản Trị</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
+            </div>
+            <div class="col-md-12" style="background:#00ff21;text-align:center;">
+                <h4 class="modal-title" style="text-align:center;">SHIP HÀNG NHANH</h4>
+                <ul class="nav navbar-nav navbar-static-top" style="text-align:center;justify-content: center;display:flex;">
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Bài Viết Mới Nhất</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Bài Viết Quan Trọng</a></li>
+                    <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Đăng Bài</a></li>
+                </ul>
+            </div>
         </div><!-- /.container-fluid -->
     </nav>
 

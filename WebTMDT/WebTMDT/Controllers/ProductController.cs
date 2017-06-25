@@ -415,8 +415,9 @@ namespace WebTMDT.Controllers
 
         // GET: /Product/search
         [AllowAnonymous]
-        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, double? lon1, double? lat1, double? lon2, double? lat2, int? pg)
+        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, double lon1, double lat1, double lon2, double lat2, int? pg)
         {         
+            
             var _p = db.Products.Select(p=>p);           
 
             int pageSize = 25;
@@ -479,6 +480,10 @@ namespace WebTMDT.Controllers
                 _p = _p.Where(o => o.F6 == f6);
             }
 
+            //_p = _p.Where((l => (Math.Acos(Math.Sin(Math.PI * lat1 / 180) * Math.Sin(Math.PI * lat1 / 180) + Math.Cos(Math.PI * lat1 / 180.0) * Math.Cos((double)(Math.PI * l.lat1 / 180)) * Math.Cos((double)(Math.PI * l.lon1 / 180 - Math.PI * lon1 / 180))) * 6371) < 100));// (l.lat - point.lat) * (l.lat - point.lat)) + ((l.lng - point.lng) * (l.lng - point.lng))<100
+            //_p = _p.Where((l => (Math.Acos(Math.Sin(Math.PI * lat2 / 180) * Math.Sin(Math.PI * lat2 / 180) + Math.Cos(Math.PI * lat2 / 180.0) * Math.Cos((double)(Math.PI * l.lat2 / 180)) * Math.Cos((double)(Math.PI * l.lon2 / 180 - Math.PI * lon2 / 180))) * 6371) < 100));
+
+
             if (f10 != null && f10 == "")
             {
                 _p = _p.OrderByDescending(o => o.F10);
@@ -509,7 +514,7 @@ namespace WebTMDT.Controllers
                         break;
                 }
             }
-
+            
             var Cat = db.Categories.ToList();
             ViewBag.Category = Cat;
             var LocalData = db.Locals.ToList();
@@ -555,15 +560,15 @@ namespace WebTMDT.Controllers
                     SDTNguoiBan = p.AspNetUser.PhoneNumber,
                     AnhSanPham = p.F11 ?? "/Content/Images/no-image-available.png",
                     LocalId = p.F16,
-                    SlugCat = Configs.unicodeToNoMark(p.Category.Category2.F2),
-                    SlugSubCat = Configs.unicodeToNoMark(p.Category.F2),
+                    SlugCat = Configs.unicodeToNoMark(p.F22),
+                    SlugSubCat = Configs.unicodeToNoMark(p.F20),
                     slugTenSp = Configs.unicodeToNoMark(p.F2 != null ? p.F2 : "no-title"),
                     GianHang = p.AspNetUser.UserName,
                     SlugGianHang = Configs.unicodeToNoMark(p.AspNetUser.TenNguoiBan != null ? p.AspNetUser.TenNguoiBan : "no-title"),
                     SubCatId = p.F15,
                     CatId = p.F17,
                     ParentId = p.F18,
-                    DiaDiem = p.Local.F2,
+                    DiaDiem = p.F19+p.F20,
                     DiemDi=p.F19,
                     DiemDen=p.F20
 
