@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutProduct.cshtml";
 }
 
-<div class="row">
+<div class="row" style="display:block;position:relative;margin-top:150px;">
     <div class="col-md-12">
         <div class="page-header">
             <h3>@ViewBag.Title.</h3>
@@ -13,16 +13,30 @@
         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "form_dangky" }))
         {
             @Html.AntiForgeryToken()
-            <h4>Người bán/cửa hàng đăng ký tài khoản.</h4>
+            <h4>Tài xế/Hãng vận tải/Khách hàng đăng ký tài khoản.</h4>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
             <div class="form-group">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Tên đăng nhập" })
-                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TenNguoiBan, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.TenNguoiBan, new { @class = "form-control", placeholder = "Nhập tên thật" })
+                    @Html.ValidationMessageFor(m => m.TenNguoiBan, "", new { @class = "text-danger" })
+                    <span class="help-block" style="font-weight: 700; color: #333;">Nếu là công ty/hãng xe thì ghi tên công ty</span>
+                </div>
+            </div>
+            @*<div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Tên đăng nhập" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
@@ -40,30 +54,107 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.TenNguoiBan, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.TenNguoiBan, new { @class = "form-control", placeholder = "Nhập tên tài xế/ hãng xe" })
-                    @Html.ValidationMessageFor(m => m.TenNguoiBan, "", new { @class = "text-danger" })
-                    <span class="help-block" style="font-weight: 700; color: #333;">Nếu là công ty/hãng xe thì ghi tên công ty</span>
-                </div>
-            </div>
-
-            <div class="form-group">
                 @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", placeholder = "Nhập địa chỉ của bạn" })
                     @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
-                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                <label class="control-label col-md-3">Bạn phải bắt buộc upload 2 ảnh giấy phép lái xe và ảnh rõ mặt</label>
+                <div class="col-md-5">
+                    <label id="ProductImages_U2" class="upload-image btn-file">
+                        <i class="fa fa-plus fa-3x"></i>
+                        <input type="file" id="ProductImages1" name="ProductImages1" accept="image/*" class="form-control" style="display: none;" />
+                    </label>
+                    <label id="ProductImages_U3" class="upload-image btn-file">
+                        <i class="fa fa-plus fa-3x"></i>
+                        <input type="file" id="ProductImages2" name="ProductImages2" accept="image/*" class="form-control" style="display: none;" />
+                    </label>
+                    <input type="hidden" name="hinh1" id="hinh1" />
+                    <input type="hidden" name="hinh2" id="hinh2" />
                 </div>
-            </div>
 
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('#ProductImages1').change(function () {
+                        var formData = new FormData();
+                        var file = $(this).get(0).files[0];
+                        formData.append("ProductImg_file", file);
+                        var i = 0;
+                        $("#ProductImages_U2").removeAttr('style').addClass('loading');
+                        i++;
+                        setTimeout(function () {
+                            $.ajax({
+                                type: "POST",
+                                url: '/product/UploadRegister',
+                                data: formData,
+                                dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                success: function (response) {
+                                    if (response.length === 0) {
+                                        alert("Ảnh không hợp lệ. Vui lòng chọn lại ảnh khác và ảnh có dung lượng tối thiểu 512 byte.");
+                                        return;
+                                    }
+                                    $('#hinh1').val(response);
+                                    $('#ProductImages_U2').css("background-image", "url('" + $('#hinh1').val() + "')");
+                                },
+                                error: function (error) {
+                                    alert('Mất kết nối mạng' + error);
+                                },
+                                complete: function () {
+                                    //console.log('end');
+                                    i--;
+                                    if (i <= 0) {
+                                        $('#ProductImages_U2').removeClass('loading');
+                                    }
+                                },
+                            });
+                        }, 3000);
+
+                    });
+                    $('#ProductImages2').change(function () {
+                        var formData = new FormData();
+                        var file = $(this).get(0).files[0];
+                        formData.append("ProductImg_file", file);
+                        var i = 0;
+                        $("#ProductImages_U3").removeAttr('style').addClass('loading');
+                        i++;
+                        setTimeout(function () {
+                            $.ajax({
+                                type: "POST",
+                                url: '/product/UploadRegister',
+                                data: formData,
+                                dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                success: function (response) {
+                                    if (response.length === 0) {
+                                        alert("Ảnh không hợp lệ. Vui lòng chọn lại ảnh khác và ảnh có dung lượng tối thiểu 512 byte.");
+                                        return;
+                                    }
+                                    $('#hinh2').val(response);
+                                    $('#ProductImages_U3').css("background-image", "url('" + $('#hinh2').val() + "')");
+                                },
+                                error: function (error) {
+                                    alert('Mất kết nối mạng' + error);
+                                },
+                                complete: function () {
+                                    //console.log('end');
+                                    i--;
+                                    if (i <= 0) {
+                                        $('#ProductImages_U3').removeClass('loading');
+                                    }
+                                },
+                            });
+                        }, 3000);
+
+                    });
+
+                })
+            </script>
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">

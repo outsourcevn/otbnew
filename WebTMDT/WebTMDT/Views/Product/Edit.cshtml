@@ -3,7 +3,7 @@
     ViewBag.Title = "Sửa bài viết";
     Layout = "~/Views/Shared/_LayoutProduct.cshtml";
 }
-<div class="row">
+<div class="row" style="display:block;position:relative;margin-top:200px;">
     <div class="col-md-12">
         <div class="page-header">
             <h3>
@@ -113,7 +113,7 @@
                     });
                 </script>
                 @Html.Partial("_PartialCategoryEdit")
-                
+
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductKg, new { @class = "col-md-3 control-label" })
                     <div class="col-md-5">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <script>
-                    $(window).on('load',function () {
+                    $(window).on('load', function () {
                         $('#ProductStatus').val("@Html.Raw(Model.ProductStatus)");
                         $('#ProductHumanType').val("@Html.Raw(Model.ProductHumanType)");
                         $('#ProductKg').val("@Html.Raw(Model.ProductKg)");
@@ -250,7 +250,7 @@
                                         },
                                     });
                                 }, 3000);
-                                
+
                             });
                         });
 
@@ -374,7 +374,7 @@
                                     },
                                 });
                             }, 3000);
-                            
+
                         });
                         $('#ProductImages_1').change(function () {
                             var formData = new FormData();
@@ -411,7 +411,7 @@
                                     },
                                 });
                             }, 3000);
-                            
+
                         });
                         $('#ProductImages_2').change(function () {
                             var formData = new FormData();
@@ -448,7 +448,7 @@
                                     },
                                 });
                             }, 3000);
-                            
+
                         })
 
                     })
@@ -485,6 +485,8 @@
 
     </div>
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

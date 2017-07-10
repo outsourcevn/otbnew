@@ -1,5 +1,11 @@
 ﻿@model List<WebTMDT.Models.Product>
 @using WebTMDT.Helpers;
+<script>
+    function showMenu(id) {
+        alert("ok");
+        $("#menu_" + id).show();
+    }
+</script>
 <div class="row">
     <div class="col-md-12">
         @if (Model != null)
@@ -17,13 +23,28 @@
                         <a href="@string.Format("/gianhang/{0}/{1}", @item.AspNetUser.UserName, Configs.unicodeToNoMark(@item.AspNetUser.UserName))">Người đăng: @item.AspNetUser.TenNguoiBan</a>
                         <a href="tel:@item.AspNetUser.PhoneNumber">Số điện thoại liên hệ: @item.AspNetUser.PhoneNumber</a>
                     </div>*@
-                        <div class="row product" style="border:1px solid;">
-                            <div class="col-xs-12 col-md-3">
+                        <div class="row product" style="border:1px solid;">                            
+                            <div class="col-xs-12 col-md-3">                                
                                 <div class="thumbnail">
                                     <a href="@string.Format("/{0}/{1}-{2}.html", Configs.unicodeToNoMark(@item.Category.F2), Configs.unicodeToNoMark(item.F2), item.F1)"><img src="@item.F11" alt="@item.F2" class="img-responsive"></a>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-7">
+                            <div class="col-xs-12 col-md-9">
+                                
+                                    @*<i class="fa fa-angle-down"></i>*@
+
+                                    @if (WebTMDT.Helpers.Configs.getCookie("user_type") == "3" || WebTMDT.Helpers.Configs.getCookie("user_type") == "2")
+                                    {
+                                        <div style="top:0px;right:0px;position:absolute;z-index:1002;" onclick="showMenu(@item.F1);">
+                                            <a style="cursor:pointer;" onclick="showMenu(@item.F1);"><img src="~/Content/Images/down.png" style="width:16px;height:16px;" /></a>
+                                            <div style="top:0px;right:0px;position:absolute;width:200px;display:none;background:#ff6a00;z-index:1001;" id="menu_@item.F1">
+                                                <div style="width:100%;"><a onclick="delpost(@item.F1,1);" style="background:#ffd62c;color:#ffffff;width:100%;float: left;cursor:pointer;">Xóa bài</a></div>
+                                                <div><a onclick="delpost(@item.F1,2);" style="background:#e76b33;color:#ffffff;width:100%;float: left;cursor:pointer;">Đánh dấu quan trọng</a></div>
+                                                <div><a href="/product/edit/@item.F1" style="background:#ffcc33;color:#ffffff;width:100%;float: left;">Sửa bài</a></div>
+                                            </div>
+                                        </div>
+                                    }
+                               
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a href="@string.Format("/{0}/{1}-{2}.html", Configs.unicodeToNoMark(@item.Category.F2), Configs.unicodeToNoMark(item.F2), item.F1)"><h3>@item.F2</h3></a>                                       

@@ -12,9 +12,14 @@ namespace WebTMDT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetRole
+    public partial class comment
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public long id { get; set; }
+        public string user_id { get; set; }
+        public Nullable<System.DateTime> date_time { get; set; }
+        public Nullable<long> product_id { get; set; }
+        public string full_content { get; set; }
+        public Nullable<int> status { get; set; }
+        public Nullable<long> parent_id { get; set; }
     }
 }

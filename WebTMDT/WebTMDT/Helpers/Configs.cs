@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using WebTMDT.Models;
@@ -188,8 +190,8 @@ namespace WebTMDT.Helpers
 
         public static string CookieName { get; set; }
         public static void setCookie(string cookieName, string cookieValue) {
-            HttpCookie myCookie = new HttpCookie(CookieName);
-            myCookie.Name = CookieName;
+            HttpCookie myCookie = new HttpCookie(cookieName);
+            myCookie.Name = cookieName;
             myCookie.Value = cookieValue;
             myCookie.Expires = DateTime.Now.AddDays(7);
             HttpContext.Current.Response.SetCookie(myCookie);
@@ -200,14 +202,22 @@ namespace WebTMDT.Helpers
             if (HttpContext.Current.Request.Cookies.Get(name) != null)
             {
                 HttpCookie cookie = HttpContext.Current.Request.Cookies.Get(name);
-                return name;
+                return cookie.Value;
             }
             else
             {
                 return "";
             }           
         }
+        public static void removieCookie(string field)
+        {
+            HttpCookie MyCookie = new HttpCookie(field);
+            MyCookie.Value = "1";
+            MyCookie.Expires = DateTime.Now.AddDays(-1);
+            HttpContext.Current.Response.Cookies.Add(MyCookie);
+            //Response.Cookies.Add(MyCookie);   
 
+        }
          //ViewBag.ProductType = new List<ProductType>() {
          //       new ProductType() { ProductTypeName = "Hàng chính hãng" },
          //       new ProductType() { ProductTypeName = "Hàng xách tay" },
@@ -271,6 +281,26 @@ namespace WebTMDT.Helpers
             return p;
         }
 
+        public static string GetMd5Hash(string input)
+        {
+            MD5 md5Hash = MD5.Create();
+            if (input == "" || input == null) input = "chanhniem";
+            // Convert the input string to a byte array and compute the hash. 
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+            // Create a new Stringbuilder to collect the bytes 
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data  
+            // and format each one as a hexadecimal string. 
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string. 
+            return sBuilder.ToString();
+        }
     }
 }

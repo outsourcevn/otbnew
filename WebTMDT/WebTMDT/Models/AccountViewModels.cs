@@ -48,9 +48,12 @@ namespace WebTMDT.Models
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage="Vui lòng nhập {0}")]
+        //[Required(ErrorMessage="Vui lòng nhập {0}")]
         [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }
+
+        [Display(Name = "Số điện thoại")]
+        public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập {0}")]
         [DataType(DataType.Password)]
@@ -63,7 +66,7 @@ namespace WebTMDT.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage="Vui lòng nhập {0}.")]
+        //[Required(ErrorMessage="Vui lòng nhập {0}.")]
         [Display(Name = "Tên đăng nhập")]
         public string UserName { get; set; }       
 
@@ -79,7 +82,7 @@ namespace WebTMDT.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập {0}.")]
-        [Display(Name="Tên tài xế/ hãng xe")]
+        [Display(Name="Tên thật")]
         public string TenNguoiBan { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập {0}.")]
@@ -95,6 +98,8 @@ namespace WebTMDT.Models
         [EmailAddress(ErrorMessage="Địa chỉ email không đúng định dạng")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        public string hinh1 { get; set; }
+        public string hinh2 { get; set; }
     }
 
     public class ResetPasswordViewModel

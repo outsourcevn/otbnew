@@ -87,6 +87,7 @@ namespace WebTMDT.Controllers
                 _product.lat2 = model.lat2;
                 _product.F21 = model.ProductKg;
                 _product.F22 = model.ProductHumanType;
+                _product.status = 0;
                 db.Products.Add(_product);
                 await db.SaveChangesAsync();
                 long _productId = _product.F1;
@@ -137,7 +138,40 @@ namespace WebTMDT.Controllers
             file.SaveAs(path);
             _fullPath_ = path;
             _fileName_ = fileName;
-            init();
+            //init();
+            //FileInfo fileInfo = new FileInfo(Server.MapPath("~/Content/Images/Products/" + fileName));
+            //if (fileInfo.Exists)
+            //{
+            //    fileName = string.Format("{0:dd_MM_yyyy_hh_mm_ss_tt}_" + fileName, DateTime.Now);
+            //    string strpath = Path.Combine(path, fileName);
+            //    file.SaveAs(strpath);
+            //    relativeUrl = "/Content/Images/Products/" + fileName;
+            //}
+            //else
+            //{
+            //    string strpath = Path.Combine(path, fileName);
+            //    file.SaveAs(strpath);
+            //    relativeUrl = "/Content/Images/Products/" + fileName;
+            //}
+            return Json(relativeUrl, JsonRequestBehavior.AllowGet);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult UploadRegister()
+        {
+            string relativeUrl = string.Empty;
+            var file = Request.Files[0];
+            if (!Configs.IsImage(file))
+            {
+                return Json(relativeUrl, JsonRequestBehavior.AllowGet);
+            }
+            var fileName = String.Format("{0}.jpg", Guid.NewGuid().ToString());
+            string path = Server.MapPath("~/Content/Images/Users/") + fileName;
+            relativeUrl = "/Content/Images/Users/" + fileName;
+            file.SaveAs(path);
+            _fullPath_ = path;
+            _fileName_ = fileName;
+            //init();
             //FileInfo fileInfo = new FileInfo(Server.MapPath("~/Content/Images/Products/" + fileName));
             //if (fileInfo.Exists)
             //{

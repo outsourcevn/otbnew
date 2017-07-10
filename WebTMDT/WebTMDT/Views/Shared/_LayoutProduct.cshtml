@@ -106,14 +106,14 @@
                     </ul>
                 </div><!-- /.navbar-collapse -->*@
             <div class="col-md-12" style="background:#3b5996;">
-                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/hlx.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
-                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/otb.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
-                <div class="col-md-4" style="text-align:center;"><img src="~/Content/Images/vg.png" style="width:101px;height:101px;border:1px solid #00ff21;" /></div>
+                <div class="col-md-4" style="text-align:center;"><a href="/"><img src="~/Content/Images/hlx.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></a></div>
+                <div class="col-md-4" style="text-align:center;"><a href="/"><img src="~/Content/Images/otb.jpg" style="width:101px;height:101px;border:1px solid #00ff21;" /></a></div>
+                <div class="col-md-4" style="text-align:center;"><a href="/"><img src="~/Content/Images/vg.png" style="width:101px;height:101px;border:1px solid #00ff21;" /></a></div>
             </div>
             <div class="col-md-12" style="background:#808080;">
                 <ul class="nav navbar-nav navbar-static-top">
                     <li><a href="/Home/About" class="btn btn-primary btn-block" style="color:#ffffff;">Giới thiệu</a></li>
-                    <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Thành Viên</a></li>
+                    <li><a href="/Account/List" class="btn btn-primary btn-block" style="color:#ffffff;">Thành Viên</a></li>
                     <li><a href="/Account/Register" class="btn btn-primary btn-block" style="color:#ffffff;">Đăng Ký </a></li>
                     <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Ô Tô Bay</a></li>
                     <li><a href="#" class="btn btn-primary btn-block" style="color:#ffffff;">Ship Hàng Nhanh</a></li>
@@ -127,7 +127,8 @@
                 <ul class="nav navbar-nav navbar-static-top" style="text-align:center;justify-content: center;display:flex;">
                     <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Bài Viết Mới Nhất</a></li>
                     <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Bài Viết Quan Trọng</a></li>
-                    <li><a href="#" class="btn btn-primary btn-block" style="color:yellow;">Đăng Bài</a></li>
+                    <li><a href="/Product" class="btn btn-primary btn-block" style="color:yellow;">Đăng Bài</a></li>
+                    @Html.Partial("_LoginPartial")
                 </ul>
             </div>
         </div><!-- /.container-fluid -->

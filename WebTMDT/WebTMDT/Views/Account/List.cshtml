@@ -1,0 +1,197 @@
+﻿@model PagedList.IPagedList<WebTMDT.Models.AspNetUser>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách thành viên";
+    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+    string type = "Thành viên thường";
+}
+<style>
+    table,tr,th,td{
+        color:#555;
+        text-align:left;
+    }
+    .img-hover img {
+    -webkit-transition: all .3s ease; /* Safari and Chrome */
+  	-moz-transition: all .3s ease; /* Firefox */
+  	-o-transition: all .3s ease; /* IE 9 */
+  	-ms-transition: all .3s ease; /* Opera */
+  	transition: all .3s ease;
+  	position:relative;
+}
+.img-hover img:hover {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform:translateZ(0) scale(1.20); /* Safari and Chrome */
+    -moz-transform:scale(1.20); /* Firefox */
+    -ms-transform:scale(1.20); /* IE 9 */
+    -o-transform:translatZ(0) scale(1.20); /* Opera */
+    transform:translatZ(0) scale(1.20);
+}
+  
+.img-hover:hover:after {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:2;
+    width:30px;
+    height:30px;
+    border:1px solid #000;
+}
+
+    .grayscale {
+        -webkit-filter: brightness(1.10) grayscale(100%) contrast(90%);
+        -moz-filter: brightness(1.10) grayscale(100%) contrast(90%);
+        filter: brightness(1.10) grayscale(100%);
+    }
+</style>
+<script>
+    function setuser(id) {
+        $("#user_id").val(id);
+        $("#setuser").show();
+    }
+    function cfsetuser() {
+        $("#setuser").hide();
+        $("#type_" + $("#user_id").val()).html("Updating...");
+        $.ajax({
+            url: "/Account/setUserType?user_id=" + $("#user_id").val()+"&type=" + $("#user_type").val(),
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#type_" + $("#user_id").val()).html($("#user_type option:selected").text());
+            }
+        });
+    }
+    function lockuser(id) {
+        $("#type_" + id).html("Updating...");
+        $.ajax({
+            url: "/Account/lockuser?user_id=" + id,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#type_" + id).html("<span style=\"color:red;\">Đã khóa</span>");
+            }
+        });
+    }
+</script>
+<div class="row" style="width:75%;top:25%;background:#3b5996;color:#ffffff;position:fixed;padding-left:5px;padding-right:5px;text-align:left;display:none;z-index:2002;" id="setuser">
+    <div style="width:100%;text-align:center;color:#ffffff;" class="standardcss"><h2>Kiểu thành viên</h2></div>
+    <p style="text-align:left;margin-top:5px;">Chọn kiểu thành viên*</p>
+    <select id="user_type" class="form-control">
+        <option value="" selected>Chọn</option>
+        <option value="0">Thành viên thường</option>
+        <option value="1">Chuyên gia</option>
+        <option value="2">Mod</option>
+        <option value="3">Admin</option>
+    </select>
+    <input type="hidden" id="user_id"/>
+    <input type="button" value="Xác Nhận" class="btn btn-primary btn-block" onclick="cfsetuser();" style="margin-bottom:5px;" id="btnregister2" />
+</div>  
+@if (WebTMDT.Helpers.Configs.getCookie("user_id") != "")
+{
+    <div class="row content-heading text-center" style="display:block;position:relative;margin-top:200px;background:#ffffff;">
+        <div class="col-md-12" id="user_productslist img-hover">
+            <div class="page-header">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            <div class="panel-heading">
+                @using (Html.BeginForm("List", "Account", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-products", onsubmit = "return validate()" }))
+                {
+                    <div class="form-group">
+                        <label for="searchQuery" class="control-label">Tìm kiếm: </label>
+                        @Html.TextBox("name", "", new { @class = "form-control", placeholder = "Nhập từ khóa tìm kiếm" })
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary"><i class="fa fa-search"></i>Tìm kiếm</button>
+                    </div>
+                }
+            </div>
+            <script>
+                function validate() {
+                    if (document.getElementById("search").value === "") {
+                        alert('Vui lòng nhập từ khóa tìm kiếm');
+                        return false;
+                    } else {
+                        return true;
+                    };
+                }
+            </script>
+            <table class="table table-bordered table-striped">
+                <tr><th>Tên thành viên</th><th>Địa chỉ</th><th>Email</th><th>Số điện thoại</th><th>Ảnh</th><th>Quản lý</th></tr>
+                @foreach (var item in Model)
+                {
+                    if (item.type == 0) { type = "Thành viên thường<br>Ngày tham gia " + item.date_reg; }
+                    if (item.type == 1) { type = "Chuyên gia<br>Ngày tham gia " + item.date_reg; }
+                    if (item.type == 2) { type = "Mod<br>Ngày tham gia " + item.date_reg; }
+                    if (item.type == 3) { type = "Admin<br>Ngày tham gia " + item.date_reg; }
+                    <tr>
+                        <td style="max-width:110px;">@item.TenNguoiBan</td>
+                        <td style="max-width:140px;">@item.DiaChi</td>
+                        <td style="max-width:130px;">@item.Email</td>
+                        <td style="max-width:50px;">@item.PhoneNumber</td>
+                        <td style="min-width:150px;">
+                            @if (item.Photo1!=null){
+                                <img src="@item.Photo1" class="img-responsive img-rounded img-hover" style="width:100px;height:100px;"><br />
+                                <img src="@item.Photo2" class="img-responsive img-rounded img-hover" style="width:100px;height:100px;">
+                            }
+                        </td>
+                        <td>
+                                <span id="type_@item.auto_id">@Html.Raw(@type)</span><br />
+                                @if (item.status == 1)
+                                {
+                                    <span style="color:red;">Đã khóa</span><br />
+                                }
+                                @if (WebTMDT.Helpers.Configs.getCookie("user_type") == "3")
+                                {
+                                    <button class="btn btn-primary" onclick="lockuser(@item.auto_id);"><i class="fa fa-lock"></i>Khóa</button>
+                                    <button class="btn btn-primary" onclick="setuser(@item.auto_id);"><i class="fa fa-circle"></i>Quản lý</button>
+                                }
+                        </td>
+                    </tr>
+
+                }
+            </table>
+            <div class="pagination-container">
+                <ul class="pagination">
+                    @for (int pg = 1; pg < Model.PageCount; pg++)
+                    {
+                        <li><a href="/Account/List?name=@ViewBag.name&page=@pg">@pg</a></li>
+                    }
+                </ul>
+            </div>
+
+            @*<div class="row product">
+                <div class="col-xs-12 col-md-3">
+                    <div class="thumbnail">
+                        <img src="@item.Photo1" alt="@item.TenNguoiBan" class="img-responsive">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="@item.Photo2" alt="@item.TenNguoiBan" class="img-responsive">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-7">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>@item.TenSp</h3>
+                            <p><b>Tình trạng: </b> @item.TinhTrangSp</p>
+                            <p><b>Ngày đăng: </b>@item.NgayDang</p>
+                            <p><b>Thể loại: </b> @item.TheLoai</p>
+                            <p><b>Tên cửa hàng: </b> @item.TenNguoiBan</p>
+                            <p class="giaban" style="top: 48%;">@item.GiaBan</p>
+                            <p class="sodienthoai"><a href="tel:@item.SoDienThoaiNgBan">@item.SoDienThoaiNgBan</a></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-md-2">
+                    @Html.RouteLink("Sửa", "ProductEdit", new { id = @item.SanPhamId }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
+                </div>
+            </div>*@
+        </div>
+    </div>
+}
+else
+{
+    <h2 style="display:block;position:relative;margin-top:200px;">Bạn phải đăng nhập thành viên, đăng nhập tại đây @Html.ActionLink("Đăng nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</h2>
+}

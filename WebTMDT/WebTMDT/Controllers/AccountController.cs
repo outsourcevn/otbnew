@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using WebTMDT.Models;
 using System.Net.Mail;
 using System.Net;
-
+using PagedList;
 namespace WebTMDT.Controllers
 {
     [Authorize]
@@ -19,7 +19,7 @@ namespace WebTMDT.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private langson12Entities db = new langson12Entities();
         public AccountController()
         {
         }
@@ -82,19 +82,34 @@ namespace WebTMDT.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            //var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
+            //        return View(model);
+            //}
+            string pass=Helpers.Configs.GetMd5Hash(model.Password);
+            var result = db.AspNetUsers.Any(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber);
+            if (result)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
-                    return View(model);
+                var user_id=db.AspNetUsers.Where(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber && o.status==0).FirstOrDefault();
+                Helpers.Configs.setCookie("user_id", user_id.Id);
+                Helpers.Configs.setCookie("user_name", user_id.TenNguoiBan);
+                Helpers.Configs.setCookie("user_type", user_id.type.ToString());
+                return RedirectToLocal(returnUrl);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
+                return View(model);
             }
         }
 
@@ -164,12 +179,18 @@ namespace WebTMDT.Controllers
             {
                 var user = new ApplicationUser
                     {
-                        UserName = model.UserName,
+                        UserName = model.TenNguoiBan,
                         TenNguoiBan = model.TenNguoiBan,
                         DiaChi = model.DiaChi,
                         PhoneNumber = model.PhoneNumber,
                         Email = model.Email,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        Photo1=model.hinh1,
+                        Photo2 = model.hinh2,
+                        status=0,
+                        type=0,
+                        date_reg=DateTime.Now,
+                        PasswordHash=Helpers.Configs.GetMd5Hash(model.Password)
                     };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -462,14 +483,42 @@ namespace WebTMDT.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            Helpers.Configs.removieCookie("user_id");
+            Helpers.Configs.removieCookie("user_name");
+            Helpers.Configs.removieCookie("user_type");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
+        [AllowAnonymous]
+        public string setUserType(int user_id,int type)
+        {
+            if (Helpers.Configs.getCookie("user_type") != "3") return "0";
+            try { 
+                db.Database.ExecuteSqlCommand("update AspNetUsers set type="+type+" where auto_id="+user_id);                
+            }catch{
+                return "0";
+            }
+            return "1";
+        }
+        [AllowAnonymous]
+        public string lockuser(int user_id)
+        {
+            if (Helpers.Configs.getCookie("user_type") != "3") return "0";
+            try
+            {
+                db.Database.ExecuteSqlCommand("update AspNetUsers set status=1 where auto_id=" + user_id);
+            }
+            catch
+            {
+                return "0";
+            }
+            return "1";
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -497,7 +546,15 @@ namespace WebTMDT.Controllers
 
             base.Dispose(disposing);
         }
-
+        [AllowAnonymous]
+        public ActionResult List(string name,int? page)
+        {
+            if (name == null) name = "";
+            var p = (from q in db.AspNetUsers where q.TenNguoiBan.Contains(name) orderby q.date_reg descending select q).Take(1000).ToList();//OrderByDescending(o=>o.Id)
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(p.ToPagedList(pageNumber, pageSize));
+        } 
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

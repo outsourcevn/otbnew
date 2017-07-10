@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutProduct.cshtml";
 }
 
-<div class="row form_login">
+<div class="col-md-12" style="display:block;position:relative;margin-top:200px;">
     <div class="col-md-8">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -15,10 +15,10 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-3 control-label" })
+                    @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-3 control-label" })
                     <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -45,7 +45,7 @@
                         <input type="submit" value="Đăng nhập" class="btn btn-primary" />
                     </div>
                 </div>
-               
+
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>
                         @Html.ActionLink("Quên mật khẩu?", "ForgotPassword")

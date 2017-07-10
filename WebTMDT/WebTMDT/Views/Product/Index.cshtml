@@ -5,26 +5,27 @@
     Layout = "~/Views/Shared/_LayoutProduct.cshtml";
 }
 
-<div class="row">
+<div class="row" style="display:block;position:relative;margin-top:200px;">
     <div class="col-md-12">
         <div class="page-header">
             <h3>@ViewBag.Title</h3>
         </div>
         @if (TempData["Message"] != null)
-        {           
-            <div class="alert alert-success alert-dismissible fade in" role="alert"> 
+        {
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
-                 <strong>@TempData["Message"]</strong>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>@TempData["Message"]</strong>
             </div>
         }
 
 
-           
+
         @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "AddNewProduct" }))
         {
             @Html.AntiForgeryToken()
-            
+
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -48,7 +49,7 @@
                     <p class="help-block font-itali">(Ví dụ: xe tìm hàng, hàng tìm xe, v.v...)</p>
                 </div>
             </div>
-            
+
 
             if (TempData["SubCatId"] != null)
             {
@@ -61,14 +62,14 @@
                 </script>
             }
             @*if (TempData["LocalId"] != null)
-            {
-                <script>
-                    function LoadLocalId () {
-                        $('#ProductLocalId').val(@TempData["LocalId"]);
-                    }
-                    window.onload = LoadCatId;
-                </script>
-            }*@
+                {
+                    <script>
+                        function LoadLocalId () {
+                            $('#ProductLocalId').val(@TempData["LocalId"]);
+                        }
+                        window.onload = LoadCatId;
+                    </script>
+                }*@
 
             <h4 style="text-transform: uppercase;">Bước 2: Nhập thông tin chi tiết chuyến xe</h4>
             <div class="form-group">
@@ -96,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <script>
                 $(document).ready(function () {
                     $("#ProductPrice").on("input", function () {
@@ -112,11 +113,11 @@
                         thousands: ',', // The thousands separator
                         decimal: '.', // The decimal separator
                         precision: 0, // How many decimal places are allowed
-                        affixesStay: false, // set if the symbol will stay in the field after the user exits the field. 
+                        affixesStay: false, // set if the symbol will stay in the field after the user exits the field.
                         symbolPosition: 'right' // use this setting to position the symbol at the left or right side of the value. default 'left'
                     }); //;
 
-                   
+
                 });
             </script>
             @Html.Partial("_CategoryLocalPartial")
@@ -135,7 +136,7 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.ProductStatus, new { @class = "col-md-3 control-label" })
-                <div class="col-md-5">    
+                <div class="col-md-5">
                     @if (ViewBag.ProductStatus != null)
                     {
                         @Html.DropDownListFor(m => m.ProductStatus, new SelectList(ViewBag.ProductStatus, "ProductStatusName", "ProductStatusName"), "-Chọn trạng thái xe-", new { @class = "form-control" })
@@ -198,12 +199,12 @@
                 @*<label for="ProductAvatar" class="control-label col-md-3">Ảnh đại diện chuyến xe</label>*@
                 @Html.LabelFor(m => m.ProductAvatar, new { @class = "col-md-3 control-label" })
                 <div class="col-md-5">
-                    
+
                     @*<div class="input-group">
-                        <span class="input-group-addon" style="cursor: pointer;">
-                            <i class="fa fa-upload"></i> Tải ảnh
-                        </span>
-                    </div>*@
+                            <span class="input-group-addon" style="cursor: pointer;">
+                                <i class="fa fa-upload"></i> Tải ảnh
+                            </span>
+                        </div>*@
                     <label id="ProductAvatar_U1" class="upload-image btn-file">
                         <i class="fa fa-plus fa-3x"></i>
                         <input type="file" id="ProductAvatar_file" name="ProductAvatar_file" accept="image/*" class="form-control" style="display: none;" />
@@ -213,11 +214,11 @@
                     @Html.ValidationMessageFor(m => m.ProductAvatar, "", new { @class = "text-danger has-error" })
                 </div>
                 @*<div class="col-md-4">
-                    <img id="ProductAvatar_img" class="img-thumbnail img-product" src="" alt="" />
-                </div>*@
+                        <img id="ProductAvatar_img" class="img-thumbnail img-product" src="" alt="" />
+                    </div>*@
                 <script>
                     $(document).ready(function () {
-                        
+
                         $("#ProductAvatar_file").change(function () {
                             var formData = new FormData();
                             var file = $(this).get(0).files[0];
@@ -254,7 +255,7 @@
                                     },
                                 });
                             }, 3000);
-                            
+
                         });
                     });
 
@@ -276,29 +277,29 @@
                     <label id="ProductImages_U4" class="upload-image btn-file">
                         <i class="fa fa-plus fa-3x"></i>
                         <input type="file" id="ProductImages3" name="ProductImages3" accept="image/*" class="form-control" style="display: none;" />
-                    </label>                 
-                    
-                    
+                    </label>
+
+
                     @*<div class="input-group">
-                        <input type="file" id="ProductImages1" name="ProductImages[]" accept="image/*" class="form-control" />
-                        <input type="file" id="ProductImages2" name="ProductImages[]" accept="image/*" class="form-control" />
-                        <input type="file" id="ProductImages3" name="ProductImages[]" accept="image/*" class="form-control" />
-                        <span class="input-group-addon" id="ProductImagesUpload" style="cursor: pointer;">
-                            <i class="fa fa-upload "></i> Tải ảnh
-                        </span>
-                    </div>*@                
+                            <input type="file" id="ProductImages1" name="ProductImages[]" accept="image/*" class="form-control" />
+                            <input type="file" id="ProductImages2" name="ProductImages[]" accept="image/*" class="form-control" />
+                            <input type="file" id="ProductImages3" name="ProductImages[]" accept="image/*" class="form-control" />
+                            <span class="input-group-addon" id="ProductImagesUpload" style="cursor: pointer;">
+                                <i class="fa fa-upload "></i> Tải ảnh
+                            </span>
+                        </div>*@
                     <input type="hidden" name="hinh1" id="hinh1" />
                     <input type="hidden" name="hinh2" id="hinh2" />
                     <input type="hidden" name="hinh3" id="hinh3" />
 
                 </div>
                 @*<div class="col-md-4">
-                    <img id="Product_img1" class="img-thumbnail img-product" src="" alt="" />
-                    <img id="Product_img2" class="img-thumbnail img-product" src="" alt="" />
-                    <img id="Product_img3" class="img-thumbnail img-product" src="" alt="" />
-                </div>*@
+                        <img id="Product_img1" class="img-thumbnail img-product" src="" alt="" />
+                        <img id="Product_img2" class="img-thumbnail img-product" src="" alt="" />
+                        <img id="Product_img3" class="img-thumbnail img-product" src="" alt="" />
+                    </div>*@
             </div>
-            
+
             <script>
                 $(document).ready(function () {
                     $('#ProductImages1').change(function () {
@@ -336,7 +337,7 @@
                                 },
                             });
                         }, 3000);
-                        
+
                     });
                     $('#ProductImages2').change(function () {
                         var formData = new FormData();
@@ -373,7 +374,7 @@
                                 },
                             });
                         }, 3000);
-                        
+
                     });
                     $('#ProductImages3').change(function () {
                         var formData = new FormData();
@@ -410,9 +411,9 @@
                                 },
                             });
                         }, 3000);
-                        
+
                     })
-                   
+
                 })
                 //$(document).ready(function () {
                 //    $('#ProductImagesUpload').on('click', function () {
@@ -421,10 +422,10 @@
                 //            alert('Vui lòng chọn ít nhất một hình ảnh.');
                 //            return;
                 //        }
-                //        var ajaxData = new FormData();                        
+                //        var ajaxData = new FormData();
                 //        $.each($("input[name^='ProductImages']"), function (i, obj) {
-                //            $.each(obj.files, function (j, file) {                               
-                //                ajaxData.append('ProductImages[' + i + ']', file);                                
+                //            $.each(obj.files, function (j, file) {
+                //                ajaxData.append('ProductImages[' + i + ']', file);
                 //            })
                 //        });
                 //        $.ajax({
@@ -435,7 +436,7 @@
                 //            contentType: false,
                 //            processData: false,
                 //            success: function (response) {
-                                
+
                 //                if (response.length === 0) {
                 //                    alert("Ảnh không hợp lên. Vui lòng chọn lại ảnh khác và ảnh có dung lượng tối thiểu 512 byte.");
                 //                    return;
@@ -475,12 +476,12 @@
                     @Html.TextAreaFor(m => m.ProductDescription, new { @class = "form-control", rows = 5, autocomplete = "off" })
                 </div>
             </div>
-            
+
             <script>
                 CKEDITOR.replace('ProductDescription');
             </script>
-            
-            
+
+
             <div class="form-group">
                 <div class="col-md-9">
                     <input type="submit" class="btn btn-primary" value="Đăng chuyến xe" />
@@ -490,6 +491,10 @@
 
     </div>
 </div>
+
+
+
+
 
 
 

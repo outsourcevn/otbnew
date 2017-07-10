@@ -169,7 +169,7 @@ namespace WebTMDT.Controllers
         {
 
             //var products = GetProductOfCat(id).OrderByDescending(x => x.F10).Take(5).ToList();
-            var _products = db.Products.Where(o => o.F22.Contains(cat)).OrderByDescending(o => o.F1).Take(5).ToList();
+            var _products = db.Products.Where(o => o.F22.Contains(cat) && o.status!=1).OrderByDescending(o => o.F1).Take(5).ToList();
             return PartialView("_ProductWithCatelog2", _products);
         }
         //public void SetProducts2(ICollection<Category> ic, List<Product> _products)
@@ -260,7 +260,7 @@ namespace WebTMDT.Controllers
 
                 XmlWriterSettings settings = null;
                 string xmlDoc = null;
-                var p = db.Products.ToList();
+                var p = db.Products.Where(o=>o.status!=1).ToList();
                 settings = new XmlWriterSettings();
                 settings.Indent = true;
                 settings.Encoding = Encoding.UTF8;

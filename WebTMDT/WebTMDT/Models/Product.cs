@@ -46,11 +46,12 @@ namespace WebTMDT.Models
         public Nullable<double> lat2 { get; set; }
         public Nullable<int> F21 { get; set; }
         public string F22 { get; set; }
+        public Nullable<int> status { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
         public virtual Local Local { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
