@@ -35,7 +35,7 @@
 <script src="~/Content/Theme/1a/Plugin/jquery.number.min.js"></script>
 
 
-<div class="row detail-product">
+<div class="row detail-product" style="display:block;position:relative;margin-top:200px;">
     @if (ViewBag.ProductNotFound != null)
     {
         <div class="col-md-12">
@@ -44,13 +44,13 @@
             </div>
         </div>
     }
-    
+
     @if (Model != null)
     {
         <div class="col-md-4 detail-product-image">
-            <div id="img-product">                
+            <div id="img-product">
                 <div class="thumbnail">
-                    <img class="img-responsive" src="@Html.DisplayFor(m=>m.F11)" alt="@Html.DisplayFor(m=>m.F2)">                    
+                    <img class="img-responsive" src="@Html.DisplayFor(m=>m.F11)" alt="@Html.DisplayFor(m=>m.F2)">
                 </div>
                 @if (Model.ImageProducts.Count > 0)
                 {
@@ -61,7 +61,7 @@
                             <li index="@myItem.i"><a href="@myItem.value.F3"><img src="@myItem.value.F3" alt="@Html.DisplayFor(m=>m.F2) - Ảnh @myItem.i" /></a></li>
                         }
                     </ul>
-                }                
+                }
             </div>
         </div>
         <div class="col-md-8 detail-product-content">
@@ -72,13 +72,13 @@
                     <p><b>Giao hàng: </b>@Html.DisplayFor(m => m.F7)</p>
                     <p><b>Ngày đăng: </b>@Html.DisplayFor(m => m.F10)</p>
                     <p><b>Địa chỉ: </b>@Html.DisplayFor(m => m.AspNetUser.DiaChi)</p>
-                    <p><b>Tên cửa hàng: </b>@Html.DisplayFor(m => m.AspNetUser.TenNguoiBan)</p>
-                    <p><b>Khuyến mại: </b>@Html.DisplayFor(m=>m.F9)</p>
+                    <p><b>Người đăng: </b>@Html.DisplayFor(m => m.AspNetUser.TenNguoiBan)</p>
+                    <p><b>Khuyến mại: </b>@Html.DisplayFor(m => m.F9)</p>
                 </div>
             </div>
             <div class="row" style="position: absolute; width: 100%; bottom: 0;">
                 <div class="col-sm-6">
-                    <p><b>Giá bán: </b> <span class="p-d-giaban">@Html.DisplayFor(m=>m.F3)</span></p>
+                    <p><b>Giá bán: </b> <span class="p-d-giaban">@Html.DisplayFor(m => m.F3)</span></p>
                 </div>
                 <div class="col-sm-6">
                     <p><b>Điện thoại: </b> <a href="tel:@Html.DisplayFor(m=>m.AspNetUser.PhoneNumber)" class="p-d-dienthoai">@Html.DisplayFor(m => m.AspNetUser.PhoneNumber)</a></p>
@@ -86,25 +86,25 @@
             </div>
         </div>
 
-    <div class="col-md-12 detail-product-description">
-        <h3>Chi tiết sản phẩm</h3>
-        <div class="row">
-            <div class="col-sm-12">
-                @Html.Raw(Model.F12)
+        <div class="col-md-12 detail-product-description">
+            <h3>Chi tiết sản phẩm</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.Raw(Model.F12)
+                </div>
+            </div>
+            <h3>Cách thức giao hàng</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>@Html.DisplayFor(m => m.F7)</p>
+                </div>
             </div>
         </div>
-        <h3>Cách thức giao hàng</h3>
-        <div class="row">
-            <div class="col-sm-12">
-                <p>@Html.DisplayFor(m => m.F7)</p>
-            </div>
-        </div>
-    </div>
 
     }
 
-    
-    
+
+
 </div>
 
 <script>

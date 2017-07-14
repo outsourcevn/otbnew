@@ -31,7 +31,7 @@ namespace WebTMDT.Controllers
         protected UserManager<ApplicationUser> UserManager { get; set; }
 
         private langson12Entities db = new langson12Entities();
-
+        [AllowAnonymous]
         // GET: Product
         public ActionResult Index()
         {
@@ -975,7 +975,20 @@ namespace WebTMDT.Controllers
             }
             return Json(x, JsonRequestBehavior.AllowGet);
         }
-
+        [HttpPost]
+        [AllowAnonymous]
+        public string delpost(long id,int type)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("update product set status="+type+" where f1="+id);
+                return "1";
+            }
+            catch(Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
 
     }
 }

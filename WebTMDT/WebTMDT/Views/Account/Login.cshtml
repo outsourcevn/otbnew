@@ -19,6 +19,7 @@
                     <div class="col-md-9">
                         @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                        <input id="UserName" name="UserName" type="hidden"/>
                     </div>
                 </div>
                 <div class="form-group">

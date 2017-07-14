@@ -2,8 +2,22 @@
 @using WebTMDT.Helpers;
 <script>
     function showMenu(id) {
-        alert("ok");
+        //alert("ok");
         $("#menu_" + id).show();
+    }
+    function delpost(id,type){
+        $("#product_" + id).html("Updating...");
+        $.ajax({
+            type: "POST",
+            url: "/Product/delpost?id=" +id+"&type=" + type,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#product_" + id).hide();
+            }else{
+                $("#product_" + id).html("Lỗi!");
+            }
+        });
     }
 </script>
 <div class="row">
@@ -23,10 +37,11 @@
                         <a href="@string.Format("/gianhang/{0}/{1}", @item.AspNetUser.UserName, Configs.unicodeToNoMark(@item.AspNetUser.UserName))">Người đăng: @item.AspNetUser.TenNguoiBan</a>
                         <a href="tel:@item.AspNetUser.PhoneNumber">Số điện thoại liên hệ: @item.AspNetUser.PhoneNumber</a>
                     </div>*@
-                        <div class="row product" style="border:1px solid;">                            
+                        <div class="row product" style="border:1px solid;" id="product_@item.F1">                            
                             <div class="col-xs-12 col-md-3">                                
                                 <div class="thumbnail">
                                     <a href="@string.Format("/{0}/{1}-{2}.html", Configs.unicodeToNoMark(@item.Category.F2), Configs.unicodeToNoMark(item.F2), item.F1)"><img src="@item.F11" alt="@item.F2" class="img-responsive"></a>
+                                    <p><b>@item.AspNetUser.TenNguoiBan</b></p>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-9">

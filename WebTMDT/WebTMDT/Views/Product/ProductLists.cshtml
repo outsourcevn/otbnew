@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_LayoutProduct.cshtml";
 }
 
-<div class="row">
+<div class="row" style="display:block;position:relative;margin-top:200px;">
     <div class="col-md-12" id="user_productslist">
         <div class="page-header">
             <h3>@ViewBag.Title</h3>
@@ -71,9 +71,9 @@
             <script>
                 $('.giaban').append($('.giaban').number(true, 0, '.', '.')).append(" Đồng.");
             </script>
-    <div class="row phantrang">
-        @Html.PagedListPager((IPagedList)ViewBag.ProductLists, page => Url.RouteUrl("ProductLists", new { searchQuery = ViewBag.searchQuery, page = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-    </div>
+            <div class="row phantrang">
+                @Html.PagedListPager((IPagedList)ViewBag.ProductLists, page => Url.RouteUrl("ProductLists", new { searchQuery = ViewBag.searchQuery, page = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+            </div>
         }
         else
         {
