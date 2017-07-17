@@ -19,10 +19,10 @@
         <AssociationConnector Association="langson12Model.FK_ImageProduct_Product" />
         <AssociationConnector Association="langson12Model.FK_Product_Local" />
         <EntityTypeShape EntityType="langson12Model.AspNetUser" Width="1.5" PointX="3.375" PointY="5.375" />
-        <EntityTypeShape EntityType="langson12Model.comment" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="langson12Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="langson12Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="langson12Model.FK_Product_AspNetUsers" />
+        <EntityTypeShape EntityType="langson12Model.comment" Width="1.5" PointX="0.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

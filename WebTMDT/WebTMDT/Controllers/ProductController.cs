@@ -989,6 +989,30 @@ namespace WebTMDT.Controllers
                 return ex.ToString();
             }
         }
-
+        [HttpPost]
+        [AllowAnonymous]
+        public string comment(long? id, string full_content)
+        {
+            try
+            {
+                comment cm=new comment();
+                cm.date_time=DateTime.Now;
+                cm.full_content=full_content;
+                cm.parent_id=null;
+                cm.product_id=id;
+                cm.status=0;
+                cm.user_id=Configs.getCookie("user_id");
+                var us = db.AspNetUsers.Find(cm.user_id);
+                cm.user_auto_id = us.auto_id;
+                cm.user_name = us.TenNguoiBan;
+                db.comments.Add(cm);
+                db.SaveChanges();
+                return cm.id.ToString();
+            }
+            catch (Exception ex)
+            {
+                return "0";
+            }
+        }
     }
 }

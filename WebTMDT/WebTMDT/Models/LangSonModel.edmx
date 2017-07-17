@@ -69,7 +69,9 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_auto_id" Type="int" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="150" />
           <Property Name="user_id" Type="nvarchar" MaxLength="150" />
           <Property Name="date_time" Type="datetime" />
           <Property Name="product_id" Type="bigint" />
@@ -311,7 +313,6 @@
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           <EntitySet Name="AspNetUsers" EntityType="langson12Model.AspNetUser" />
-          <EntitySet Name="comments" EntityType="langson12Model.comment" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="langson12Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -324,6 +325,7 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
+          <EntitySet Name="comments" EntityType="langson12Model.comment" />
           </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -517,18 +519,6 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="langson12Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="Products" Relationship="langson12Model.FK_Product_AspNetUsers" FromRole="AspNetUser" ToRole="Product" />
         </EntityType>
-        <EntityType Name="comment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="user_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="product_id" Type="Int64" />
-          <Property Name="full_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="parent_id" Type="Int64" />
-        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="langson12Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -569,6 +559,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_auto_id" Type="Int32" />
+          <Property Name="user_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="product_id" Type="Int64" />
+          <Property Name="full_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="parent_id" Type="Int64" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -707,6 +711,8 @@
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_auto_id" ColumnName="user_auto_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

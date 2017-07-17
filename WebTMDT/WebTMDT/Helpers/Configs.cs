@@ -13,6 +13,18 @@ namespace WebTMDT.Helpers
     public static class Configs
     {
         public const int ImageMinimumBytes = 512;
+        private static langson12Entities db = new langson12Entities();
+        public static string getImageFromId(string id)
+        {
+            try
+            {
+                return db.AspNetUsers.Find(id).Photo1;
+            }
+            catch
+            {
+                return "";
+            }
+        }
         public static bool IsImage(HttpPostedFileBase postedFile)
         {
             //-------------------------------------------

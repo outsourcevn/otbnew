@@ -1,0 +1,25 @@
+﻿@model List<WebTMDT.Models.comment>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <li>
+            <div class="comment-main-level">
+                <!-- Avatar -->
+                <div class="comment-avatar"><img src="@WebTMDT.Helpers.Configs.getImageFromId(item.user_id)" alt=""></div>
+                <!-- Contenedor del Comentario -->
+                <div class="comment-box">
+                    <div class="comment-head">
+                        <h6 class="comment-name"><a href="#">@item.user_name</a></h6>
+                        <span>@item.date_time</span>
+                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-trash"></i>
+                    </div>
+                    <div class="comment-content">
+                        @Html.Raw(item.full_content)
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+}

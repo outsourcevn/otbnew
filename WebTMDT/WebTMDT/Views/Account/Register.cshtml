@@ -172,7 +172,25 @@
 
     </div>
 </div>
+<script>
+function checkphone(obj){
+        
+        $.ajax({
+            type: "GET",
+            url: "/Account/checkphone?phone="+obj.value,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                alert("Số điện thoại này đã có người dùng!");
+            }else{                
+            }
+        });
+    }
+$("#PhoneNumber").blur(function() {
 
+   checkphone(this);
+});
+</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

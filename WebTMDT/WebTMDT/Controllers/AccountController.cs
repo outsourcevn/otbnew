@@ -79,44 +79,43 @@ namespace WebTMDT.Controllers
             {
                 return View(model);
             }
-            model.UserName = model.PhoneNumber;
-            string pass = Helpers.Configs.GetMd5Hash(model.Password);
+            //model.UserName = model.PhoneNumber;
+            //string pass = Helpers.Configs.GetMd5Hash(model.Password);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            //var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        var user_id = db.AspNetUsers.Where(o => o.UserName == model.UserName && o.PhoneNumber == model.PhoneNumber && o.status == 0).FirstOrDefault();
+            //        Helpers.Configs.setCookie("user_id", user_id.Id);
+            //        Helpers.Configs.setCookie("user_name", user_id.TenNguoiBan);
+            //        Helpers.Configs.setCookie("user_type", user_id.type.ToString());
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
+            //        return View(model);
+            //}
+            string pass = Helpers.Configs.GetMd5Hash(model.Password);
+            var result = db.AspNetUsers.Any(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber);
+            if (result)
             {
-                case SignInStatus.Success:
-                   
-                    var user_id = db.AspNetUsers.Where(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber && o.status == 0).FirstOrDefault();
-                    Helpers.Configs.setCookie("user_id", user_id.Id);
-                    Helpers.Configs.setCookie("user_name", user_id.TenNguoiBan);
-                    Helpers.Configs.setCookie("user_type", user_id.type.ToString());
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
-                    return View(model);
+                var user_id = db.AspNetUsers.Where(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber && o.status == 0).FirstOrDefault();
+                Helpers.Configs.setCookie("user_id", user_id.Id);
+                Helpers.Configs.setCookie("user_name", user_id.TenNguoiBan);
+                Helpers.Configs.setCookie("user_type", user_id.type.ToString());
+                return RedirectToLocal(returnUrl);
             }
-            //string pass=Helpers.Configs.GetMd5Hash(model.Password);
-            //var result = db.AspNetUsers.Any(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber);
-            //if (result)
-            //{
-            //    var user_id=db.AspNetUsers.Where(o => o.PasswordHash == pass && o.PhoneNumber == model.PhoneNumber && o.status==0).FirstOrDefault();
-            //    Helpers.Configs.setCookie("user_id", user_id.Id);
-            //    Helpers.Configs.setCookie("user_name", user_id.TenNguoiBan);
-            //    Helpers.Configs.setCookie("user_type", user_id.type.ToString());
-            //    return RedirectToLocal(returnUrl);
-            //}
-            //else
-            //{
-            //    ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
-            //    return View(model);
-            //}
+            else
+            {
+                ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu.");
+                return View(model);
+            }
         }
 
         //
@@ -173,7 +172,19 @@ namespace WebTMDT.Controllers
             }
             return View();
         }
-
+        [AllowAnonymous]
+        public string checkphone(string phone)
+        {
+            var duplicate = db.AspNetUsers.Any(o => o.PhoneNumber == phone);
+            if (duplicate)
+            {
+                return "1";
+            }
+            else
+            {
+                return "0";
+            }
+        }
         //
         // POST: /Account/Register
         [HttpPost]
@@ -183,6 +194,13 @@ namespace WebTMDT.Controllers
         {
             if (ModelState.IsValid)
             {
+                var phone = db.AspNetUsers.Any(o => o.PhoneNumber == model.PhoneNumber);
+                if (phone)
+                {
+                    ModelState.AddModelError("", "Đã tồn tại số điện thoại này rồi! Bạn chọn số khác!");
+                    return View(model);
+                }
+                string pass=Helpers.Configs.GetMd5Hash(model.Password);
                 var user = new ApplicationUser
                     {
                         UserName = model.PhoneNumber,
@@ -196,9 +214,10 @@ namespace WebTMDT.Controllers
                         status=0,
                         type=0,
                         date_reg=DateTime.Now,
-                        PasswordHash = model.Password
+                        PasswordHash = pass
                     };
-                var result = await UserManager.CreateAsync(user, model.Password);//Helpers.Configs.GetMd5Hash(model.Password)
+                //PasswordHash = model.Password
+                var result = await UserManager.CreateAsync(user, pass);//Helpers.Configs.GetMd5Hash(model.Password)
                 if (result.Succeeded)
                 {
                     //var currentUser = UserManager.FindByName(user.UserName); 

@@ -122,6 +122,25 @@ namespace WebTMDT.Controllers
 
             return PartialView("_DanhMucSanPhamPartial2", data);
         }
+        public ActionResult listComment(long? product_id)
+        {
+            try {
+                if (Configs.getCookie("user_type") == "3" || Configs.getCookie("user_type") == "2")
+                { 
+                    var data = db.comments.Where(o => o.product_id == product_id).OrderBy(o => o.id).Take(100).ToList();
+                    return PartialView("listComment", data);
+                }
+                else
+                {
+                    string user_id = Configs.getCookie("user_id");
+                    var data = db.comments.Where(o => o.product_id == product_id && o.user_id == user_id).OrderBy(o => o.id).Take(100).ToList();
+                    return PartialView("listComment", data);
+                }
+                
+            }catch{
+                return PartialView("listComment", null);
+            }
+        }
         //_ProductWithCatelog
         [ChildActionOnly]
         public ActionResult _ProductWithCatelog(int? id)

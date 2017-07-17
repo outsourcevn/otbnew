@@ -15,6 +15,8 @@ namespace WebTMDT.Models
     public partial class comment
     {
         public long id { get; set; }
+        public Nullable<int> user_auto_id { get; set; }
+        public string user_name { get; set; }
         public string user_id { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
         public Nullable<long> product_id { get; set; }

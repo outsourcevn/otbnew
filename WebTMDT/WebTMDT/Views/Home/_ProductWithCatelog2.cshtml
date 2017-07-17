@@ -69,7 +69,7 @@
                                         <p class="giaban" style="top: 48%;">@String.Format("{0:n0}", @item.F3)</p>
                                         <p class="sodienthoai"><a href="tel:@item.AspNetUser.PhoneNumber">@item.AspNetUser.PhoneNumber</a></p>
                                         <p ><span style="background:#00ffff;">@Html.Raw(item.F12)</span></p>
-                                    </div>
+                                    </div>                                    
                                 </div>
 
                             </div>
@@ -78,6 +78,55 @@
                                 @Html.RouteLink("Sửa", "ProductEdit", new { id = @item.SanPhamId }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
                             </div>*@
                         </div>
+                        <div class="comments-container">
+		                    <h1>Bình Luận</h1>
+		                    <ul id="comments-list-@item.F1" class="comments-list">
+			                    @*<li>
+				                    <div class="comment-main-level">
+					                    <!-- Avatar -->
+					                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+					                    <!-- Contenedor del Comentario -->
+					                    <div class="comment-box">
+						                    <div class="comment-head">
+							                    <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
+							                    <span>hace 20 minutos</span>
+							                    <i class="fa fa-reply"></i>
+							                    <i class="fa fa-heart"></i>
+						                    </div>
+						                    <div class="comment-content">
+							                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </li>
+			                    <li>
+				                    <div class="comment-main-level">
+					                    <!-- Avatar -->
+					                    <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+					                    <!-- Contenedor del Comentario -->
+					                    <div class="comment-box">
+						                    <div class="comment-head">
+							                    <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
+							                    <span>hace 10 minutos</span>
+							                    <i class="fa fa-reply"></i>
+							                    <i class="fa fa-heart"></i>
+						                    </div>
+						                    <div class="comment-content">
+							                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </li>*@
+                                @{Html.RenderAction("listComment", new { product_id = item.F1 });}
+                                <li>
+                                    <div class="col-sm-12">
+                                        <div class="comment_form" id="comment_dv_@item.F1">
+                                            <textarea rows="10" id="comment_@item.F1" name="comment_@item.F1" placeholder="Bình luận" onkeypress="handle(event,@item.F1);"></textarea>
+                                        </div>
+                                    </div>
+                                <li>
+		                    </ul>
+	                    </div>
                 }
             }
             else
@@ -88,3 +137,31 @@
 
     </div>
 </div>
+<script>
+    function handle(e,id) {
+        if (e.keyCode === 13) {
+            //e.preventDefault(); // Ensure it is only this code that rusn
+            //$("#comment_dv_" + id).html("Đang gửi...");
+            //alert(document.getElementById('comment_'+id).value );
+            var fdata = new FormData();
+            fdata.append('full_content',document.getElementById('comment_'+id).value);
+            fdata.append('id', id);
+            //alert(document.getElementById('comment_'+id).value);
+            $.ajax({                
+                type: "POST",
+                url: "/Product/comment",
+                data:fdata,
+                processData: false,
+                contentType: false,
+                cache: false
+            }).done(function (html) {
+                alert(html);
+                if (html != "0") {
+                    $("#comment_dv_" + id).html(document.getElementById('comment_'+id).value+"<br><span><a onclick='editpost("+html+",0);'>Sửa</a></span>-<span><a onclick='editpost("+html+",1);'>Xóa</a></span>");
+                }else{
+                    $("#comment_dv_" + id).html("Lỗi!");
+                }
+            });
+        }
+    }
+</script>
