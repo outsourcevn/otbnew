@@ -1014,5 +1014,33 @@ namespace WebTMDT.Controllers
                 return "0";
             }
         }
+        [HttpPost]
+        [AllowAnonymous]
+        public string delcomment(long id)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("delete from comments where id=" + id);
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                return "0";
+            }
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public string submitcomment(long id,string full_content)
+        {
+            try
+            {
+                db.Database.ExecuteSqlCommand("update comments set full_content=N'" + full_content + "' where id=" + id);
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                return "0";
+            }
+        }
     }
 }
