@@ -1,30 +1,139 @@
 ﻿@model List<WebTMDT.Models.ProductHumanType>
 @using WebTMDT.Controllers;
 <link rel="stylesheet" type="text/css" href="~/Content/Theme/1a/css/comment.css">
-<div class="row">
-    <div class="col-md-12">
-        @if (Model != null)
-        {
-            if (Model.Count > 0)
-            {
-                foreach (var item in Model)
+<script>
+    function handle(e, id) {
+        //alert(document.getElementById('comment_' + id).value);
+        if (e.keyCode === 13) {
+            //e.preventDefault(); // Ensure it is only this code that rusn
+            //$("#comment_dv_" + id).html("Đang gửi...");
+            //alert(document.getElementById('comment_'+id).value );
+            var fdata = new FormData();
+            var full_content = document.getElementById('comment_' + id).value.replace(/(\r\n|\n|\r)/gm, "");
+            $("#comment_" + id).html("Đang gửi...");
+            if (full_content.trim()==""){
+                alert("nhập giá trị");
+                return;
+            }
+            fdata.append('full_content', full_content);
+            fdata.append('id', id);
+            //alert(document.getElementById('comment_'+id).value);
+            $.ajax({
+                type: "POST",
+                url: "/Product/comment",
+                data: fdata,
+                processData: false,
+                contentType: false,
+                cache: false
+            }).done(function (html) {
+                //alert(html);
+                if (html != "0") {
+                    $("#comment_dv_" + id).html(document.getElementById('comment_' + id).value + "<br><i class=\"fa fa-edit\" onclick=\"editcomment(" + html + ",'" + full_content + "\");'></i><i class=\"fa fa-trash\" onclick=\"delcomment(" + html + ");\"></i>");
+                } else {
+                    $("#comment_dv_" + id).html("Lỗi!");
+                    alert("Bạn chưa đăng nhập!");
+                    window.location.href = "/Account/Login";
+                }
+            });
+        }
+    }
+    function showMenu(id) {
+        //alert("ok");
+        $("#menu_" + id).show();
+    }
+    function delpost(id, type) {
+        $("#product_" + id).html("Updating...");
+        $.ajax({
+            type: "POST",
+            url: "/Product/delpost?id=" + id + "&type=" + type,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#product_" + id).hide();
+            } else {
+                $("#product_" + id).html("Lỗi!");
+            }
+        });
+    }
+    function delcomment(id) {
+        $("#full_content_comment_" + id).html("Đang xóa...");
+        $.ajax({
+            type: "POST",
+            url: "/Product/delcomment?id=" + id,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#full_content_comment_" + id).html("Đã xóa...");
+            } else {
+                $("#full_content_comment_" + id).html("Lỗi!");
+            }
+        });
+    }
+    function editcomment(id, full_content) {
+        //alert(id + full_content);
+        $("#full_content_comment_" + id).html("<textarea rows=\"10\" id=\"comment_" + id + "\" name=\"comment_" + id + "\" placeholder=\"Bình luận\" onkeypress=\"submitcomment(event," + id + ");\">" + full_content + "</textarea>");
+
+    }
+    function submitcomment(e, id) {
+        if (e.keyCode === 13) {
+            var fdata = new FormData();
+            var full_content = document.getElementById('comment_' + id).value.replace(/(\r\n|\n|\r)/gm, "");
+            if (full_content.trim() == "") {
+                alert("nhập giá trị");
+                return;
+            }
+            $("#comment_" + id).html("Đang gửi...");
+            fdata.append('full_content', full_content);
+            fdata.append('id', id);
+            //alert(document.getElementById('comment_'+id).value);
+            $.ajax({
+                type: "POST",
+                url: "/Product/submitcomment",
+                data: fdata,
+                processData: false,
+                contentType: false,
+                cache: false
+            }).done(function (html) {
+                //alert(html);
+                if (html != "0") {
+                    //var str="<div class=\"comment-content\" id=\"full_content_comment_"+id+"\">";
+                    $("#full_content_comment_" + id).html(document.getElementById('comment_' + id).value + "<br><i class=\"fa fa-edit\" onclick=\"editcomment(" + id + ",'" + full_content + "');\" style=\"cursor:pointer;\"></i>&nbsp;&nbsp;<i class=\"fa fa-trash\" onclick=\"delcomment(" + id + ");\" style=\"cursor:pointer;\"></i>");
+                } else {
+                    $("#comment_dv_" + id).html("Lỗi!");
+                    alert("Bạn chưa đăng nhập!");
+                    window.location.href = "/Account/Login";
+                }
+            });
+        }
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div id="main-content">
+            <article class="single-post">
+                @if (Model != null)
                 {
-                    HomeController hc = new HomeController();
-                    if (hc.GetProductOfCat2(item.ProductHumanTypeName))
+                    if (Model.Count > 0)
                     {
-                        <div class="panel panel-default panel-category">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">@item.ProductHumanTypeName</h3>
-                            </div>
-                            <div class="panel-body">
-                                @{Html.RenderAction("_ProductWithCatelog2", new { cat = item.ProductHumanTypeName });}
-                            </div>
-                        </div>
+                        foreach (var item in Model)
+                        {
+                            HomeController hc = new HomeController();
+                            if (hc.GetProductOfCat2(item.ProductHumanTypeName))
+                            {
+                                <div class="panel panel-default panel-category">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">@item.ProductHumanTypeName.ToUpperInvariant()</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        @{Html.RenderAction("_ProductWithCatelog2", new { cat = item.ProductHumanTypeName });}
+                                    </div>
+                                </div>
+                            }
+                        }
                     }
                 }
-            }
-        }
-
+            </article>
+        </div>
     </div>
 </div>
 

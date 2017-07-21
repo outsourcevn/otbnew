@@ -12,10 +12,10 @@
                     <div class="comment-head">
                         <h6 class="comment-name"><a href="#">@item.user_name</a></h6>
                         <span>@item.date_time</span>
-                        <i class="fa fa-edit"></i>
-                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-edit" onclick="editcomment(@item.id,'@item.full_content');"></i>
+                        <i class="fa fa-trash" onclick="delcomment(@item.id);"></i>
                     </div>
-                    <div class="comment-content">
+                    <div class="comment-content" id="full_content_comment_@item.id">
                         @Html.Raw(item.full_content)
                     </div>
                 </div>

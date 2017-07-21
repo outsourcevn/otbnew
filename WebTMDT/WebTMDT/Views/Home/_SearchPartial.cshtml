@@ -34,46 +34,10 @@
         });
     </script>
 
-    <div class="form-group filter_search">
-        <div class="col-md-12">
-            @Html.TextBox("f18", "", new { @class = "form-control input_search" })
-            @Html.TextBox("f17", "", new { @class = "form-control input_search" })
-            @Html.TextBox("f15", "", new { @class = "form-control input_search" })
-            @Html.TextBox("f16", "", new { @class = "form-control input_search" })
-            @Html.TextBox("f5", "", new { @class = "form-control input_option" })
-            @Html.TextBox("f6", "", new { @class = "form-control input_option" })
-        </div>
-    </div>
-         @*<div class="form-group filter_search">
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f18", "", new { @class = "form-control input_search" })
-        </div>
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f17", "", new { @class = "form-control input_search" })
-        </div>
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f15", "", new { @class = "form-control input_search" })
-        </div>
-    </div>
-    <div class="form-group filter_search">
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f16", "", new { @class = "form-control input_search" })
-        </div>
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f5", "", new { @class = "form-control input_query_2" })
-        </div>
-        <div class="col-md-4 col-xs-12">
-            @Html.TextBox("f6", "", new { @class = "form-control input_query_2" })
-        </div>
-    </div>*@
-         @*@Html.TextBox("f17", "", new { @class = "input-sm input_search" })
-        @Html.TextBox("f15", "", new { @class = "input-sm input_search" })
-        @Html.TextBox("f16", "", new { @class = "input-sm input_search" })
-        @Html.TextBox("f5", "", new { @class = "input-sm input_query" })
-        @Html.TextBox("f6", "", new { @class = "input-sm input_query" })*@
+         
          @Html.Hidden("f10", "")
          @Html.Hidden("f3", "")
-    <div class="form-group select_search">
+    <div class="form-group select_search" style="text-align: center;width:80%;">
         @*@{Html.RenderAction("ShowCat1", "Home");}*@
         <div class="col-md-3">
             <div class="dropdown" id="selectDM1">
@@ -134,7 +98,7 @@
 
         <div class="col-md-3">
                 <!-- Your email input -->
-                <button class="btn btn-primary btn-block" id="btn-timkiem"><i class="fa fa-search"></i> Tìm Kiếm</button> <!-- Send button -->
+                <button class="btn btn-primary btn-block" id="btn-timkiem" style="height: 60px;"><i class="fa fa-search"></i> Tìm Kiếm</button> <!-- Send button -->
         </div>
 
     </div><!-- end nested inner row -->

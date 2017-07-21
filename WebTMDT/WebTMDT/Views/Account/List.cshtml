@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Danh sách thành viên";
-    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
     string type = "Thành viên thường";
 }
 <style>
@@ -89,7 +89,7 @@
 </div>  
 @if (WebTMDT.Helpers.Configs.getCookie("user_id") != "")
 {
-    <div class="row content-heading text-center" style="display:block;position:relative;margin-top:200px;background:#ffffff;">
+    <div class="row content-heading text-center" style="display:block;position:relative;margin-top:20px;background:#ffffff;">
         <div class="col-md-12" id="user_productslist img-hover">
             <div class="page-header">
                 <h3>@ViewBag.Title</h3>
