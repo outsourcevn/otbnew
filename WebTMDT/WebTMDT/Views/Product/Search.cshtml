@@ -1,8 +1,116 @@
 ﻿@model PagedList.IPagedList<WebTMDT.Models.ProductShow>
 @using PagedList.Mvc;
+@using WebTMDT.Helpers;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <script src="~/Content/Theme/1a/Plugin/jquery.number.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Theme/1a/css/comment.css">
+<script>
+    function handle(e, id) {
+        //alert(document.getElementById('comment_' + id).value);
+        if (e.keyCode === 13) {
+            //e.preventDefault(); // Ensure it is only this code that rusn
+            //$("#comment_dv_" + id).html("Đang gửi...");
+            //alert(document.getElementById('comment_'+id).value );
+            var fdata = new FormData();
+            var full_content = document.getElementById('comment_' + id).value.replace(/(\r\n|\n|\r)/gm, "");
+            $("#comment_" + id).html("Đang gửi...");
+            if (full_content.trim() == "") {
+                alert("nhập giá trị");
+                return;
+            }
+            fdata.append('full_content', full_content);
+            fdata.append('id', id);
+            //alert(document.getElementById('comment_'+id).value);
+            $.ajax({
+                type: "POST",
+                url: "/Product/comment",
+                data: fdata,
+                processData: false,
+                contentType: false,
+                cache: false
+            }).done(function (html) {
+                //alert(html);
+                if (html != "0") {
+                    $("#comment_dv_" + id).html(document.getElementById('comment_' + id).value + "<br><i class=\"fa fa-edit\" onclick=\"editcomment(" + html + ",'" + full_content + "\");'></i><i class=\"fa fa-trash\" onclick=\"delcomment(" + html + ");\"></i>");
+                } else {
+                    $("#comment_dv_" + id).html("Lỗi!");
+                    alert("Bạn chưa đăng nhập!");
+                    window.location.href = "/Account/Login";
+                }
+            });
+        }
+    }
+    function showMenu(id) {
+        //alert("ok");
+        $("#menu_" + id).show();
+    }
+    function delpost(id, type) {
+        $("#product_" + id).html("Updating...");
+        $.ajax({
+            type: "POST",
+            url: "/Product/delpost?id=" + id + "&type=" + type,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#product_" + id).hide();
+            } else {
+                $("#product_" + id).html("Lỗi!");
+            }
+        });
+    }
+    function delcomment(id) {
+        $("#full_content_comment_" + id).html("Đang xóa...");
+        $.ajax({
+            type: "POST",
+            url: "/Product/delcomment?id=" + id,
+            cache: false
+        }).done(function (html) {
+            if (html == "1") {
+                $("#full_content_comment_" + id).html("Đã xóa...");
+            } else {
+                $("#full_content_comment_" + id).html("Lỗi!");
+            }
+        });
+    }
+    function editcomment(id, full_content) {
+        //alert(id + full_content);
+        $("#full_content_comment_" + id).html("<textarea rows=\"10\" id=\"comment_" + id + "\" name=\"comment_" + id + "\" placeholder=\"Bình luận\" onkeypress=\"submitcomment(event," + id + ");\">" + full_content + "</textarea>");
 
+    }
+    function submitcomment(e, id) {
+        if (e.keyCode === 13) {
+            var fdata = new FormData();
+            var full_content = document.getElementById('comment_' + id).value.replace(/(\r\n|\n|\r)/gm, "");
+            if (full_content.trim() == "") {
+                alert("nhập giá trị");
+                return;
+            }
+            $("#comment_" + id).html("Đang gửi...");
+            fdata.append('full_content', full_content);
+            fdata.append('id', id);
+            //alert(document.getElementById('comment_'+id).value);
+            $.ajax({
+                type: "POST",
+                url: "/Product/submitcomment",
+                data: fdata,
+                processData: false,
+                contentType: false,
+                cache: false
+            }).done(function (html) {
+                //alert(html);
+                if (html != "0") {
+                    //var str="<div class=\"comment-content\" id=\"full_content_comment_"+id+"\">";
+                    $("#full_content_comment_" + id).html(document.getElementById('comment_' + id).value + "<br><i class=\"fa fa-edit\" onclick=\"editcomment(" + id + ",'" + full_content + "');\" style=\"cursor:pointer;\"></i>&nbsp;&nbsp;<i class=\"fa fa-trash\" onclick=\"delcomment(" + id + ");\" style=\"cursor:pointer;\"></i>");
+                } else {
+                    $("#comment_dv_" + id).html("Lỗi!");
+                    alert("Bạn chưa đăng nhập!");
+                    window.location.href = "/Account/Login";
+                }
+            });
+        }
+    }
+</script>
 @{
     ViewBag.Title = "";
     if (ViewBag.f18n == null && ViewBag.f17n == null && ViewBag.f15n == null && ViewBag.f16n == null)
@@ -14,9 +122,9 @@
         ViewBag.Title += ViewBag.f18n + " ";
     }
     if (ViewBag.f17n != null)
-	{
-		 ViewBag.Title += ViewBag.f17n + " ";
-	}
+    {
+        ViewBag.Title += ViewBag.f17n + " ";
+    }
     if (ViewBag.f15n != null)
     {
         ViewBag.Title += ViewBag.f15n + " ";
@@ -24,27 +132,37 @@
     if (ViewBag.f16n != null)
     {
         ViewBag.Title += ViewBag.f16n + " ";
-    }    
-    
-    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
-}
+    }
 
-<div class="content-heading text-center">
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
+}
+<div @*class="content-heading text-center" style="display:block;position:relative;margin-top:20px;width:80%;"*@>
     <!-- Input Your Home Content Here -->
-    <div class="row text-center">
+    <div class="row text-center" style="background: url('../Content/new/images/main.jpg') no-repeat center 100%;">
         <!-- contact form outer row with centered text-->
-        <h2>Sử dụng bộ lọc bên dưới để tìm kiếm xe nhanh nhất</h2>
-        <div class="col-md-12">
+        <h2>Tìm Kiếm</h2>
+        <div class="col-md-10 col-md-offset-1" style="background: rgba(0, 0, 0, 0.7);">
             <!-- col 10 with offset 1 to centered -->
             @Html.Partial("~/Views/Home/_SearchPartial.cshtml")
         </div><!-- end col 10 with offset 1 to centered -->
     </div> <!-- end contact form outer row with centered text-->
-
-
 </div><!-- End Input Your Home Content Here -->
+@*<div class="content-heading text-center">
+        <!-- Input Your Home Content Here -->
+        <div class="row text-center">
+            <!-- contact form outer row with centered text-->
+            <h2>Sử dụng bộ lọc bên dưới để tìm kiếm xe nhanh nhất</h2>
+            <div class="col-md-12">
+                <!-- col 10 with offset 1 to centered -->
+                @Html.Partial("~/Views/Home/_SearchPartial.cshtml")
+            </div><!-- end col 10 with offset 1 to centered -->
+        </div> <!-- end contact form outer row with centered text-->
 
-<div class="form-horizontal" id="search_option">
-    <div class="form-group">
+
+    </div><!-- End Input Your Home Content Here -->*@
+
+<div>
+    <div class="row text-center">
         <div class="col-md-3">
             @if (ViewBag.ProductTheLoai != null)
             {
@@ -74,54 +192,103 @@
 
 
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container">
+    <div class="row">
+        <div id="main-content">
+            <article class="single-post">
+                @if (Model.Count > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        @*<div class="row product">
+                            <div class="col-xs-12 col-md-3">
+                                <div class="thumbnail">
+                                    <a href="@string.Format("/{0}/{1}-{2}.html", @item.SlugCat, @item.slugTenSp, @item.SanPhamId)">
+                                        <img src="@item.AnhSanPham" alt="@item.TenSp" class="img-responsive">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3><a href="@string.Format("/{0}/{1}-{2}.html", @item.SlugCat,  @item.slugTenSp, @item.SanPhamId)">@item.TenSp</a></h3>
+                                        <p><b>Tình trạng: </b> @item.TinhTrangSp</p>
+                                        <p><b>Ngày đăng: </b>@String.Format("{0:dd/MM/yyyy HH:mm:ss tt}", item.NgayDang)</p>
+                                        <p><b>Thể loại: </b> @item.TheLoai</p>
+                                        <p><b>Tên tài xế: </b><a href="@string.Format("/gianhang/{0}/{1}", @item.GianHang, @item.SlugGianHang)">@item.TenNguoiBan</a></p>
+                                        <p><b>Địa đi: </b>@item.DiemDi</p>
+                                        <p><b>Địa đến: </b>@item.DiemDen</p>
+                                        <p class="giaban">@item.GiaBan</p>
+                                        <p class="sodienthoai"><a href="tel:@item.SDTNguoiBan">@item.SDTNguoiBan</a></p>
+                                    </div>
+                                </div>
 
-        @if (Model.Count > 0)
-        {
-            foreach (var item in Model)
-            {
-                <div class="row product">
-                    <div class="col-xs-12 col-md-3">
-                        <div class="thumbnail">
-                            <a href="@string.Format("/{0}/{1}-{2}.html", @item.SlugCat, @item.slugTenSp, @item.SanPhamId)">
-                                <img src="@item.AnhSanPham" alt="@item.TenSp" class="img-responsive">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-9">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h3><a href="@string.Format("/{0}/{1}-{2}.html", @item.SlugCat,  @item.slugTenSp, @item.SanPhamId)">@item.TenSp</a></h3>
-                                <p><b>Tình trạng: </b> @item.TinhTrangSp</p>
-                                <p><b>Ngày đăng: </b>@String.Format("{0:dd/MM/yyyy HH:mm:ss tt}", item.NgayDang)</p>
-                                <p><b>Thể loại: </b> @item.TheLoai</p>
-                                <p><b>Tên tài xế: </b><a href="@string.Format("/gianhang/{0}/{1}", @item.GianHang, @item.SlugGianHang)">@item.TenNguoiBan</a></p>
-                                <p><b>Địa đi: </b>@item.DiemDi</p>
-                                <p><b>Địa đến: </b>@item.DiemDen</p>
-                                <p class="giaban">@item.GiaBan</p>
-                                <p class="sodienthoai"><a href="tel:@item.SDTNguoiBan">@item.SDTNguoiBan</a></p>
+                            </div>
+                        </div>*@
+                        <div class="row product" style="border:1px solid;margin: 60px auto 15px;width: 80%;" id="product_@item.SanPhamId">
+                            <div class="col-xs-12 col-md-3">
+                                <div class="thumbnail" style="border:none;">
+                                    <div class="col-md-12"><a href="@string.Format("/{0}/{1}-{2}.html", Configs.unicodeToNoMark(@item.SlugCat), Configs.unicodeToNoMark(@item.slugTenSp), @item.SanPhamId)"><img src="@item.AnhSanPham" alt="@item.slugTenSp" class="img-responsive" style="max-height:300px;"></a></div>
+                                    <div class="col-md-12" style="text-align:center;"><b>@item.TenNguoiBan</b></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-7">
+
+                                @*<i class="fa fa-angle-down"></i>*@
+
+                                @if (WebTMDT.Helpers.Configs.getCookie("user_type") == "3" || WebTMDT.Helpers.Configs.getCookie("user_type") == "2")
+                                {
+                                    <div style="top:0px;right:0px;position:absolute;z-index:1002;" onclick="showMenu(@item.SanPhamId);">
+                                        <a style="cursor:pointer;" onclick="showMenu(@item.SanPhamId);"><img src="~/Content/Images/down.png" style="width:16px;height:16px;" /></a>
+                                        <div style="top:0px;right:0px;position:absolute;width:200px;display:none;background:#ff6a00;z-index:1001;" id="menu_@item.SanPhamId">
+                                            <div style="width:100%;"><a onclick="delpost(@item.SanPhamId,1);" style="background:#ffd62c;color:#ffffff;width:100%;float: left;cursor:pointer;">Xóa bài</a></div>
+                                            <div><a onclick="delpost(@item.SanPhamId,2);" style="background:#e76b33;color:#ffffff;width:100%;float: left;cursor:pointer;">Đánh dấu quan trọng</a></div>
+                                            <div><a href="/product/edit/@item.SanPhamId" style="background:#ffcc33;color:#ffffff;width:100%;float: left;">Sửa bài</a></div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="@string.Format("/{0}/{1}-{2}.html", @item.SlugCat, @item.slugTenSp, @item.SanPhamId)"><h3>@item.TenSp</h3></a>
+                                        <p><b>Ngày đăng: </b>@String.Format("{0:dd/MM/yyyy HH:mm:ss tt}", item.NgayDang)</p>
+                                        <p><b>Điểm đi: </b> @item.DiemDi</p>
+                                        <p><b>Điểm đến: </b> @item.DiemDen</p>
+                                        <p>Giá bán: @item.GiaBan</p>
+                                        <p>Điện thoại: <a href="tel:@item.SDTNguoiBan">@item.SDTNguoiBan</a></p>
+                                        @*<p><span style="background:#00ffff;">@Html.Raw(item.)</span></p>*@
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
+                        <div class="comments-container">
+                            <h1>Bình Luận</h1>
+                            <ul id="comments-list-@item.SanPhamId" class="comments-list">
+                                @{Html.RenderAction("listComment", "Home", new { product_id = item.SanPhamId });}
+                                <li>
+                                    <div class="col-sm-12">
+                                        <div class="comment_form" id="comment_dv_@item.SanPhamId">
+                                            <textarea rows="10" id="comment_@item.SanPhamId" name="comment_@item.SanPhamId" placeholder="Bình luận" onkeypress="handle(event,@item.SanPhamId);"></textarea>
+                                        </div>
+                                    </div>
+                                <li>
+                            </ul>
+                        </div>
+                    }
+                    <script>
+                        $('.giaban').append($('.giaban').number(true, 0, '.', '.')).append(" Đồng.");
+                    </script>
+                    <div class="row phantrang">
+                        @Html.PagedListPager(Model, page => Url.Action("Search", new { inputsearch = ViewBag.inputsearch, f18 = ViewBag.f18, f17 = ViewBag.f17, f15 = ViewBag.f15, f16 = ViewBag.f16, f5 = ViewBag.f5, f6 = ViewBag.f6, f10 = ViewBag.f10, f3 = ViewBag.f3, pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
                     </div>
-                </div>
-
-            }
-
-            <script>
-                $('.giaban').append($('.giaban').number(true, 0, '.', '.')).append(" Đồng.");
-            </script>
-            <div class="row phantrang">
-                @Html.PagedListPager(Model, page => Url.Action("Search", new { inputsearch = ViewBag.inputsearch, f18 = ViewBag.f18, f17 = ViewBag.f17, f15 = ViewBag.f15, f16 = ViewBag.f16, f5 = ViewBag.f5, f6 = ViewBag.f6, f10 = ViewBag.f10, f3 = ViewBag.f3, pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
-            </div>
-        }
-        else
-        {
-            <span>Không tìm thấy sản phẩm nào.</span>
-        }
+                }
+                else
+                {
+                    <span>Không tìm thấy sản phẩm nào.</span>
+                }
+            </article>
+        </div>
     </div>
-
 </div>
 
 
@@ -157,7 +324,7 @@
             }
         })
 
-      
+
 
         $('input.input_search').on('beforeItemRemove', function (event) {
             var tag = event.item;
@@ -179,12 +346,11 @@
             }
         });
 
-        
+
 
 
     });
 </script>
-
 @*<div id="clickme">click me</div>
     <script>
         $('#clickme').click(function () {

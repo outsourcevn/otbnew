@@ -15,6 +15,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Data.Entity.SqlServer;
 namespace WebTMDT.Controllers
 {
     [Authorize]
@@ -449,7 +450,7 @@ namespace WebTMDT.Controllers
 
         // GET: /Product/search
         [AllowAnonymous]
-        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, double lon1, double lat1, double lon2, double lat2, int? pg)
+        public ActionResult Search(string inputsearch, string f5, string f6, string f3, string f10, string f15, string f16, string f17, string f18, double? lon1, double? lat1, double? lon2, double? lat2, int? pg)
         {         
             
             var _p = db.Products.Select(p=>p);           
@@ -516,7 +517,7 @@ namespace WebTMDT.Controllers
 
             //_p = _p.Where((l => (Math.Acos(Math.Sin(Math.PI * lat1 / 180) * Math.Sin(Math.PI * lat1 / 180) + Math.Cos(Math.PI * lat1 / 180.0) * Math.Cos((double)(Math.PI * l.lat1 / 180)) * Math.Cos((double)(Math.PI * l.lon1 / 180 - Math.PI * lon1 / 180))) * 6371) < 100));// (l.lat - point.lat) * (l.lat - point.lat)) + ((l.lng - point.lng) * (l.lng - point.lng))<100
             //_p = _p.Where((l => (Math.Acos(Math.Sin(Math.PI * lat2 / 180) * Math.Sin(Math.PI * lat2 / 180) + Math.Cos(Math.PI * lat2 / 180.0) * Math.Cos((double)(Math.PI * l.lat2 / 180)) * Math.Cos((double)(Math.PI * l.lon2 / 180 - Math.PI * lon2 / 180))) * 6371) < 100));
-
+            
 
             if (f10 != null && f10 == "")
             {
@@ -530,7 +531,20 @@ namespace WebTMDT.Controllers
             {
                 _p = _p.OrderBy(o => o.F10);
             }
-
+            if (lon1 != null)
+            {
+                var startPoint = new { Latitude = lat1, Longitude = lon1 };
+                _p = _p.OrderBy(x => 12742 * SqlFunctions.Asin(SqlFunctions.SquareRoot(SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat1 - startPoint.Latitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat1 - startPoint.Latitude)) / 2) +
+                                    SqlFunctions.Cos((SqlFunctions.Pi() / 180) * startPoint.Latitude) * SqlFunctions.Cos((SqlFunctions.Pi() / 180) * (x.lat1)) *
+                                    SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon1 - startPoint.Longitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon1 - startPoint.Longitude)) / 2))));
+            }
+            if (lon2 != null)
+            {
+                var startPoint2 = new { Latitude = lat2, Longitude = lon2 };
+                _p = _p.OrderBy(x => 12742 * SqlFunctions.Asin(SqlFunctions.SquareRoot(SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat2 - startPoint2.Latitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lat2 - startPoint2.Latitude)) / 2) +
+                                    SqlFunctions.Cos((SqlFunctions.Pi() / 180) * startPoint2.Latitude) * SqlFunctions.Cos((SqlFunctions.Pi() / 180) * (x.lat2)) *
+                                    SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon2 - startPoint2.Longitude)) / 2) * SqlFunctions.Sin(((SqlFunctions.Pi() / 180) * (x.lon2 - startPoint2.Longitude)) / 2))));
+            }
             if (f3 != null &&  f3 != "")
             {               
                 Configs.TwoNumber _x;
