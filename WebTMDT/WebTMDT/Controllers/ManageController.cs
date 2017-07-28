@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebTMDT.Models;
+using WebTMDT.Helpers;
 
 namespace WebTMDT.Controllers
 {
@@ -21,10 +22,11 @@ namespace WebTMDT.Controllers
         }
 
         private langson12Entities db = new langson12Entities();
-
+        [AllowAnonymous]
         public async Task<ActionResult> ManageUserInfo()
         {
-            string userId = User.Identity.GetUserId();
+            string userId = Configs.getCookie("user_id");
+            if (userId == "") return RedirectToAction("Login", "Account");
             var user = await UserManager.FindByIdAsync(userId);
             var _user = new UserEditViewModel()
             {
@@ -38,11 +40,14 @@ namespace WebTMDT.Controllers
 
         [HttpPost]       
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<ActionResult> ManageUserInfo(UserEditViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string userId = User.Identity.GetUserId();
+                //string userId = User.Identity.GetUserId();
+                string userId = Configs.getCookie("user_id");
+                if (userId == "") return RedirectToAction("Login", "Account");
                 var user = await UserManager.FindByIdAsync(userId);
 
                 // Update the details
@@ -50,7 +55,8 @@ namespace WebTMDT.Controllers
                 user.DiaChi = model.DiaChi ?? null;
                 user.PhoneNumber = model.PhoneNumber ?? null;
                 user.TenNguoiBan = model.TenNguoiBan ?? null;
-                
+                user.Photo1 = model.hinh1;
+                user.Photo2 = model.hinh2;
                 // This is the part that doesn't work
                 var result = await UserManager.UpdateAsync(user);
 
@@ -59,7 +65,7 @@ namespace WebTMDT.Controllers
                 {
                     AddErrors(result);
                 }
-                TempData["Updated"] = "Cập nhật thông tin cửa hàng thành công.";
+                TempData["Updated"] = "Cập nhật thông tin thành công.";
                 return RedirectToAction("ManageUserInfo");
             }
 
@@ -97,7 +103,7 @@ namespace WebTMDT.Controllers
                 _userManager = value;
             }
         }
-
+        [AllowAnonymous]
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
@@ -111,7 +117,8 @@ namespace WebTMDT.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            //var userId = User.Identity.GetUserId();
+            string userId = Configs.getCookie("user_id");
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),

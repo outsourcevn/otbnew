@@ -26,8 +26,18 @@
 
     <!-- jQuery and Modernizr-->
     <script src="~/Content/new/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="~/Content/Theme/1a/js/jquery-1.11.2.min.js"></script>
+    <script src="~/Content/Theme/1a/js/jquery-ui-1.8.24.js"></script>
+    <script src="~/Content/Theme/1a/js/jquery.1.11.1.js"></script>
+    <script src="~/Content/Theme/1a/js/jquery-ui.js"></script>
     <link rel="stylesheet" href="~/Content/Theme/1a/js/jquery-ui.css">
-    <script src="~/Scripts/jquery.number.min.js"></script>
+    <script src="~/Content/Theme/1a/Plugin/momentjs/moment.min.js"></script>
+    <script src="~/Content/Theme/1a/Plugin/momentjs/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="~/Content/Theme/1a/js/bootstrap.js"></script>
+    @*<script src="~/Content/Theme/1a/Plugin/Datetimepiker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Content/Theme/1a/Plugin/bootstrap-tagsinput.min.js"></script>*@
+    <script src="~/Content/Theme/1a/Plugin/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/Theme/1a/Plugin/maskMoney/jquery.maskMoney.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -70,9 +80,9 @@
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right" style="position: relative; z-index:999">
                                     <ul class="nav navbar-nav navbar-static-top">
-                                        <li><a href="/Home/About" >Giới thiệu</a></li>
-                                        <li><a href="/Account/List" >Thành Viên</a></li>
-                                        <li><a href="/Account/Register" >Đăng Ký </a></li>
+                                        <li><a href="/Account/List">Thành Viên</a></li>
+                                        <li><a href="/Account/Register">Đăng Ký </a></li>
+                                        <li><a href="#" >Giới thiệu</a></li>                                        
                                         <li><a href="#" >Ô Tô Bay</a></li>
                                         <li><a href="#" >Ship Hàng Nhanh</a></li>
                                         <li><a href="#" >Vay Gấp</a></li>
@@ -93,8 +103,8 @@
                 <div class="container">
                     <h4 style="padding-left:100px;float:left;"><a href="/">Ship Hàng Nhanh</a></h4>
                     <ul>
-                        <li><a href="#" >Bài Mới</a></li>
-                        <li><a href="#" >Bài Quan Trọng</a></li>
+                        <li><a href="?status=0" >Bài Mới</a></li>
+                        <li><a href="?status=2">Bài Quan Trọng</a></li>
                         <li><a href="/Product" >Đăng Bài</a></li>
                         @Html.Partial("_LoginPartial")
                     </ul>
@@ -110,91 +120,15 @@
             <div class="bg-footer">
                 <div class="bottom-footer">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4">
-                                <div class="footer-about-grab">
-                                    <div class="grab-logo bottom-margin-md">
-                                        HTX Toàn Cầu
-                                    </div>
-                                    <div class="grab-infor">
-                                        <span id="alladdress" style="text-align:left;"></span>
-                                        <script>
-                                            $.ajax({
-                                                url: "/Api/getAddress",
-                                                cache: false
-                                            }).done(function (html) {
-                                                $("#alladdress").html(html);
-                                            });
-                                        </script>
-                                    </div>
-                                    @*<div class="grab-contact top-margin-md">
-                                            <p>(08) 7108 7108</p>
-                                            <p><a href="mailto:support.hcm@grab.com">support.hcm@grab.com</a></p>
-                                        </div>*@
-                                </div><!-- /footer-about-grab-->
-                            </div><!-- /col-sm-12 col-md-3-->
-
-
-                            <div class="col-sm-12 col-md-8 hidden-xs">
-                                <div class="row sitemap-container">
-
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <h4 class="text-caps">CÔNG TY</h4>
-                                        <ul class="sitemapList" id="menu-company-menu">
-                                            <li class="menu-item" id="menu-item-1040"><a href=#">Giới thiệu</a></li>                                            
-                                            <li class="menu-item"><a href="#">Tin Tức</a></li>
-                                            <li class="menu-item" id="menu-item-1039"><a href="#" target="_blank">Tuyển dụng</a></li>
-                                        </ul>
-                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <h4 class="text-caps">Các dịch vụ</h4>
-                                        <ul id="menu-footer-services" class="sitemapList">
-                                            <li id="menu-item-375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-375"><a href="#">Ship hàng nhanh</a></li>
-                                            <li id="menu-item-376" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376"><a href="#">Thương Mại Điện Tử</a></li>
-                                            <li id="menu-item-4007" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4007"><a href="#">Mua bán ô tô</a></li>
-                                            <li id="menu-item-4008" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4008"><a href="#">Vay Gấp</a></li>                                            
-                                        </ul>
-                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <h4 class="text-caps">Doanh Nghiệp</h4>
-                                        <ul id="menu-footer-corporate" class="sitemapList">
-                                            <li id="menu-item-380" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-380"><a href="#">Tuyển dụng</a></li>
-                                            <li id="menu-item-381" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-381"><a href="#">Cơ hội hợp tác</a></li>
-                                        </ul>
-                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
-                                    <div class="col-xs-6 col-sm-4 col-md-3">
-                                        <h4 class="text-caps">Tài Xế</h4>
-                                        <ul id="menu-footer-ride" class="sitemapList">
-                                            <li id="menu-item-387" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-387"><a href="/Driver/Reg/">Đăng Ký Tài Xế</a></li>
-                                            <li id="menu-item-7703" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7703"><a href="/Driver/Log">Đăng nhập tài xế</a></li>
-                                            <li id="menu-item-4009" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4009"><a href="#">Hỗ trợ</a></li>
-                                        </ul>
-                                    </div><!-- /col-xs-6 col-sm-4 col-md-3 -->
-                                </div><!-- /row sitemap-container -->
-
-                                <div class="row">
-                                    <div class="col-sm-3 col-md-offset-9">
-                                        <div class="" style="margin-top: 25px;">
-                                            <ul class="list-inline social pull-right">
-                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li> <!-- Change # With your FB Link -->
-                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li> <!-- Change # With your Twitter Link -->
-                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li> <!-- Change # With your Google Plus Link -->
-                                                <li><a href="#"><i class="fa fa-youtube"></i></a></li> <!-- Change # With your Youtube Link -->
-                                                <li>
-                                                    <a href="https://play.google.com/store/apps/details?id=grab.com.thuexetoancau" target="_blank">
-                                                        <img alt="Tải nội dung trên Google Play" src="/images/vi_badge_web_generic.png" style="width:135px;height:40px;">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://itunes.apple.com/us/app/noi-car/id1229143419?ls=1&mt=8" target="_blank">
-                                                        <img src="/Images/appstore.svg">
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- /col-sm-12 col-md-9 -->
+                        <div class="row" style="min-height:200px;">
+                            <!-- container -->
+                            <p class="pull-left">© 2017 Otobay.Vn <span id="contactemail1">Email: <a href="mailto:vuxuankieman@gmail.com " class="btn btn-primary btn-success">vuxuankieman@gmail.com </a></span> <span id="contphone1">Mobile: <a href="tel:0902007007" class="btn btn-primary btn-success">0902 007 007</a> </span> </p> <!-- copyright text here-->
+                            <ul class="list-inline social pull-right">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li> <!-- Change # With your FB Link -->
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li> <!-- Change # With your Twitter Link -->
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li> <!-- Change # With your Google Plus Link -->
+                                <li><a href="#"><i class="fa fa-youtube"></i></a></li> <!-- Change # With your Youtube Link -->
+                            </ul>
                         </div>
                     </div>
                 </div>

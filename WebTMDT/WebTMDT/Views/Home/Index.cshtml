@@ -6,7 +6,7 @@
 
 <div @*class="content-heading text-center" style="display:block;position:relative;margin-top:20px;width:80%;"*@>
     <!-- Input Your Home Content Here -->
-    <div class="row text-center" style="background: url('../Content/new/images/main.jpg') no-repeat center 100%;">
+    <div class="row text-center" style="background: url('../Content/new/images/main.jpg') no-repeat center 100%;min-height:500px;">
         <!-- contact form outer row with centered text-->
         <h2>Tìm Kiếm</h2>
         <div class="col-md-10 col-md-offset-1" style="background: rgba(0, 0, 0, 0.7);">
@@ -17,4 +17,4 @@
 </div><!-- End Input Your Home Content Here -->
 
 @*@{Html.RenderAction("_DanhMucSanPhamPartial");}*@
-@{Html.RenderAction("_DanhMucSanPhamPartial2");}
+@{Html.RenderAction("_DanhMucSanPhamPartial2", new { status = ViewBag.status });}

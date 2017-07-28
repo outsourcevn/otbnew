@@ -36,6 +36,7 @@ namespace WebTMDT.Controllers
         // GET: Product
         public ActionResult Index()
         {
+            if (Configs.getCookie("user_id") == "") return RedirectToAction("Login", "Account");
             var Cat = db.Categories.ToList();
             ViewBag.Category = Cat;
             var LocalData = db.Locals.ToList();
@@ -51,14 +52,15 @@ namespace WebTMDT.Controllers
         // POST: /Product/AddNewProduct
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<ActionResult> AddNewProduct(ProductViewModel model, UrlImages image)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index");
             }
-            string userId = User.Identity.GetUserId();           
-            if (!string.IsNullOrEmpty(userId))
+            string userId = Configs.getCookie("user_id");// User.Identity.GetUserId();
+            if (Configs.getCookie("user_id") != "")
             {               
                 Product _product = new Product();
                 _product.F2 = model.ProductName ?? null;
@@ -125,6 +127,7 @@ namespace WebTMDT.Controllers
         System.ComponentModel.BackgroundWorker UploadBackgroundWorker;
         System.ComponentModel.BackgroundWorker CalculateHashBackgroundWorker;
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Upload()
         {
             string relativeUrl = string.Empty;
@@ -766,6 +769,7 @@ namespace WebTMDT.Controllers
 
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult Edit(ProductEditViewModel product, string hinh_0, string hinh_1, string hinh_2)
         {    
             if (ModelState.IsValid)

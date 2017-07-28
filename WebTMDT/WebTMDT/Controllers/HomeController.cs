@@ -15,13 +15,19 @@ namespace WebTMDT.Controllers
     {
         private langson12Entities db = new langson12Entities();
 
-        public ActionResult Index()
+        public ActionResult Index(int? status)
         {
             var Cat = db.Categories.ToList();
             ViewBag.Category = Cat;
             var LocalData = db.Locals.ToList();
             ViewBag.LocalData = LocalData;
             ViewBag.ProductHumanType = Configs.CreateListProductHumanType();
+            if (status==null)
+            {
+                ViewBag.status=0;
+            }else{
+                ViewBag.status=status;
+            }
             return View();
         }
         [HttpGet]
@@ -116,10 +122,17 @@ namespace WebTMDT.Controllers
             return PartialView("_DanhMucSanPhamPartial", data);
         }
         //[ChildActionOnly]
-        public ActionResult _DanhMucSanPhamPartial2()
+        public ActionResult _DanhMucSanPhamPartial2(int? status)
         {
             var data = Configs.CreateListProductHumanType();
-
+            if (status == null)
+            {
+                ViewBag.status = 0;
+            }
+            else
+            {
+                ViewBag.status = status;
+            }
             return PartialView("_DanhMucSanPhamPartial2", data);
         }
         public ActionResult listComment(long? product_id)
@@ -184,12 +197,18 @@ namespace WebTMDT.Controllers
             return PartialView("_ProductWithCatelog", _products.OrderByDescending(x=>x.F10).Take(4).ToList());
         }
         [ChildActionOnly]
-        public ActionResult _ProductWithCatelog2(string cat)
+        public ActionResult _ProductWithCatelog2(string cat,int? status)
         {
-
-            //var products = GetProductOfCat(id).OrderByDescending(x => x.F10).Take(5).ToList();
-            var _products = db.Products.Where(o => o.F22.Contains(cat) && o.status!=1).OrderByDescending(o => o.F1).Take(5).ToList();
-            return PartialView("_ProductWithCatelog2", _products);
+            if (status == null) { 
+                //var products = GetProductOfCat(id).OrderByDescending(x => x.F10).Take(5).ToList();
+                var _products = db.Products.Where(o => o.F22.Contains(cat) && o.status!=1).OrderByDescending(o => o.F1).Take(5).ToList();
+                return PartialView("_ProductWithCatelog2", _products);
+            }
+            else
+            {
+                var _products = db.Products.Where(o => o.F22.Contains(cat) && o.status == status).OrderByDescending(o => o.F1).Take(5).ToList();
+                return PartialView("_ProductWithCatelog2", _products);
+            }
         }
         //public void SetProducts2(ICollection<Category> ic, List<Product> _products)
         //{

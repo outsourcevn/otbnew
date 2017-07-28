@@ -125,7 +125,7 @@
                                         <h3 class="panel-title">@item.ProductHumanTypeName.ToUpperInvariant()</h3>
                                     </div>
                                     <div class="panel-body">
-                                        @{Html.RenderAction("_ProductWithCatelog2", new { cat = item.ProductHumanTypeName });}
+                                        @{Html.RenderAction("_ProductWithCatelog2", new { cat = item.ProductHumanTypeName,status=ViewBag.status });}
                                     </div>
                                 </div>
                             }

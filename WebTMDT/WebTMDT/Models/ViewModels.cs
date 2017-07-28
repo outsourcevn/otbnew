@@ -177,6 +177,8 @@ namespace WebTMDT.Models
         [Required(ErrorMessage = "Vui lòng nhập {0}.")]
         [Display(Name = "Họ và tên")]
         public string TenNguoiBan { get; set; }
+        public string hinh1 { get; set; }
+        public string hinh2 { get; set; }
     }
 
     public class ProductImages

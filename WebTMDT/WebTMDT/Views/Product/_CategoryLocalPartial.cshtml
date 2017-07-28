@@ -21,7 +21,7 @@
                    }
                     <span class="caret pull-right"></span>
                     </a>
-                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" id="menucatmenu">
                         @{
                             var menusList = ViewBag.Category as IEnumerable<Category>;
                             foreach (var item in menusList.Where(x => x.F3 == null))
@@ -128,10 +128,12 @@
     </div>
 </div>
 <script type="text/javascript">
+    //alert("ok");
     $(document).ready(function () {
-
         $('#selectDM1 > ul > li.dropdown-submenu > a').on('click', function (e) {
             //e.preventDefault();   
+            //alert("ok");
+            $('#menucatmenu').show();
             var _id = $(this).data('id');
             var _text = $(this).html();
             var selText = $(this).html() + '<span class="caret pull-right"></span>';
