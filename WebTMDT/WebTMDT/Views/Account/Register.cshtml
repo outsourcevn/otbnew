@@ -1,10 +1,10 @@
 ﻿@model WebTMDT.Models.RegisterViewModel
 @{
     ViewBag.Title = "Đăng ký tài khoản";
-    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+    Layout = "~/Views/Shared/_LayoutNewBlank.cshtml";
 }
 
-<div class="row" style="display:block;position:relative;margin-top:150px;">
+<div class="row" style="display:block;position:relative;margin-top:50px;">
     <div class="col-md-12">
         <div class="page-header">
             <h3>@ViewBag.Title.</h3>
@@ -66,10 +66,12 @@
                     <label id="ProductImages_U2" class="upload-image btn-file">
                         <i class="fa fa-plus fa-3x"></i>
                         <input type="file" id="ProductImages1" name="ProductImages1" accept="image/*" class="form-control" style="display: none;" />
+                        <span style="width:100px;height:100px;" id="showProductImages_U1"></span>
                     </label>
                     <label id="ProductImages_U3" class="upload-image btn-file">
                         <i class="fa fa-plus fa-3x"></i>
                         <input type="file" id="ProductImages2" name="ProductImages2" accept="image/*" class="form-control" style="display: none;" />
+                        <span style="width:100px;height:100px;" id="showProductImages_U2"></span>
                     </label>
                     <input type="hidden" name="hinh1" id="hinh1" />
                     <input type="hidden" name="hinh2" id="hinh2" />
@@ -99,7 +101,8 @@
                                         return;
                                     }
                                     $('#hinh1').val(response);
-                                    $('#ProductImages_U2').css("background-image", "url('" + $('#hinh1').val() + "')");
+                                    //$('#ProductImages_U2').css("background-image", "url('" + $('#hinh1').val() + "')");
+                                    $('#showProductImages_U1').html("<img src=\"" + $('#hinh1').val() + "\" style=\"width:100px;height:100px;\">");
                                 },
                                 error: function (error) {
                                     alert('Mất kết nối mạng' + error);
@@ -136,7 +139,8 @@
                                         return;
                                     }
                                     $('#hinh2').val(response);
-                                    $('#ProductImages_U3').css("background-image", "url('" + $('#hinh2').val() + "')");
+                                    //$('#ProductImages_U3').css("background-image", "url('" + $('#hinh2').val() + "')");
+                                    $('#showProductImages_U2').html("<img src=\"" + $('#hinh2').val() + "\" style=\"width:100px;height:100px;\">");
                                 },
                                 error: function (error) {
                                     alert('Mất kết nối mạng' + error);
@@ -191,6 +195,6 @@ $("#PhoneNumber").blur(function() {
    checkphone(this);
 });
 </script>
-@section Scripts {
+@*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

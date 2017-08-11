@@ -224,7 +224,7 @@ namespace WebTMDT.Helpers
         public static void removieCookie(string field)
         {
             HttpCookie MyCookie = new HttpCookie(field);
-            MyCookie.Value = "1";
+            MyCookie.Value = "";
             MyCookie.Expires = DateTime.Now.AddDays(-1);
             HttpContext.Current.Response.Cookies.Add(MyCookie);
             //Response.Cookies.Add(MyCookie);   

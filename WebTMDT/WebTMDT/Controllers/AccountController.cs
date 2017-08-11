@@ -170,6 +170,10 @@ namespace WebTMDT.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            Helpers.Configs.removieCookie("user_id");
+            Helpers.Configs.removieCookie("user_name");
+            Helpers.Configs.removieCookie("user_type");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return View();
         }
         [AllowAnonymous]
